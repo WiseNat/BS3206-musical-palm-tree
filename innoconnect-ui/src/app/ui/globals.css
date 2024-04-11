@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --windsor-tan: #ad5100;
+  --ghost-white: #f8f9fb;
+  --dim-grey: #6c6c6c;
+  --blue-sapphire: #195876;
+  --yankees-blue: #112638;
+}
+
+body {
+  color: var(--blue-sapphire);
+}
+
+h1 {
+  color: var(--blue-sapphire);
+}
+
+Button {
+  background-color: var(--yankees-blue);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
