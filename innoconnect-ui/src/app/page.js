@@ -1,6 +1,5 @@
 import Image from "next/image";
-import ButtonLink from "./components/ButtonLink";
-import "./ui/globals.css";
+import ButtonLink from "@/app/components/ButtonLink";
 
 export default function Home() {
   return (
@@ -24,7 +23,7 @@ export default function Home() {
         </p>
       </div>
       <div>
-        <ButtonLink route="/ui/login" text="START INNOVATING" />
+        <ButtonLink route="/ui/login" text="Start Innovating" />
       </div>
     </main>
   );
