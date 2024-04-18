@@ -12,7 +12,7 @@ const Navbar = ({ }) => {
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
       <Toolbar variant="dense">
-        <IconButton color="inherit">  {/* TODO: Make this link to home page */}
+        <IconButton color="inherit" href="/" >
           <AccountTreeOutlinedIcon/>
         </IconButton>
           <Typography className="select-none" variant="h7" sx={{ flexGrow: 1, ml: 1 }}>
