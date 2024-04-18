@@ -1,7 +1,7 @@
 'use client';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes  } from '@mui/material/styles';
 
-const theme = createTheme({
+const theme = responsiveFontSizes(createTheme({
     palette: {
       mode: 'light',
       primary: {
@@ -21,6 +21,6 @@ const theme = createTheme({
       },
       divider: '#6C6C6C',
     },
-  });
+  }));
 
 export default theme;
