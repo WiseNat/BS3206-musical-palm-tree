@@ -15,7 +15,7 @@ const Navbar = ({ }) => {
         <IconButton color="inherit">  {/* TODO: Make this link to home page */}
           <AccountTreeOutlinedIcon/>
         </IconButton>
-          <Typography className="select-none" variant="h7" color="inherit" component="div" sx={{ flexGrow: 1, ml: 1 }}>
+          <Typography className="select-none" variant="h7" sx={{ flexGrow: 1, ml: 1 }}>
             <b>InnoConnect</b>
           </Typography>
         <IconButton color="inherit"> {/* TODO: Make this link to account page */}
