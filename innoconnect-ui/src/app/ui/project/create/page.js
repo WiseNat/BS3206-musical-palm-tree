@@ -1,8 +1,9 @@
-import Navbar from "../../../components/Navbar";
-import Form from "../../../components/Form";
-import SelectProgrammingLanguage from "../../../components/SelectProgrammingLanguage";
-import SelectTimezone from "../../../components/SelectTimezone";
-import SelectCommunicationLanguage from "../../../components/SelectCommunicationLanguage";
+import Navbar from "@/app/components/Navbar";
+import Form from "@/app/components/Form";
+import SelectProgrammingLanguage from "@/app/components/SelectProgrammingLanguage";
+import SelectTimezone from "@/app/components/SelectTimezone";
+import SelectCommunicationLanguage from "@/app/components/SelectCommunicationLanguage";
+import SelectTechnology from "@/app/components/SelectTechnology";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -13,18 +14,12 @@ export default function Create() {
       <Navbar />
       <main>
         <Form title="Create a Project" className="mx-16 my-4">
-          {/* TODO: REQUIRED */}
-          <TextField label="Project Title" />
-          {/* TODO: NOT REQUIRED */}
+          <TextField label="Project Title" required />
           <TextField label="Project Description" minRows={3} multiline/>
-          {/* TODO: NOT REQUIRED */}
-          <SelectCommunicationLanguage label="Main Communication Language" />
-          {/* TODO: NOT REQUIRED */}
+          <SelectCommunicationLanguage label="Main Communication Language" required />
           <SelectTimezone label="Main Timezone" />
-          {/* TODO: NOT REQUIRED */}
           <SelectProgrammingLanguage label="Main Programming Language" />
-          {/* TODO: NOT REQUIRED */}
-          <SelectProgrammingLanguage label="Main Technology" />
+          <SelectTechnology label="Main Technology" />
           {/* TODO: SelectCommunicationChannel */}
           {/* TODO: TextField[Project URL] */}
           <Button variant="contained">Submit</Button>

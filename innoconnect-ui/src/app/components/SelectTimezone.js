@@ -46,12 +46,12 @@ const timezones = [
 ]
 
 // TODO: Change this to the tag based approach: https://mui.com/material-ui/react-autocomplete/#multiple-values
-const SelectTimezone = ({ label }) => {
+const SelectTimezone = ({ label, required }) => {
   return (
     <Autocomplete
       options={timezones}
       renderInput={(params) => (
-        <TextField {...params} label={label} />
+        <TextField {...params} label={label} required={required} />
       )}
     />
   );

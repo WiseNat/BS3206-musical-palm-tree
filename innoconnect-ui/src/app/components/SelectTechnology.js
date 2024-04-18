@@ -35,12 +35,12 @@ const technologies = [
 
 // TODO: Add logo for each technology?
 // TODO: Change this to the tag based approach: https://mui.com/material-ui/react-autocomplete/#multiple-values
-const SelectTechnology = ({ label }) => {
+const SelectTechnology = ({ label, required }) => {
   return (
     <Autocomplete
       options={technologies}
       renderInput={(params) => (
-        <TextField {...params} label={label} />
+        <TextField {...params} label={label} required={required} />
       )}
     />
   );

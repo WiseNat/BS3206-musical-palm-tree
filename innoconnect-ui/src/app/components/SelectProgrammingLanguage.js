@@ -24,12 +24,12 @@ const programmingLanguages = [
 
 // TODO: Add logo for each language?
 // TODO: Change this to the tag based approach: https://mui.com/material-ui/react-autocomplete/#multiple-values
-const SelectProgrammingLanguage = ({ label }) => {
+const SelectProgrammingLanguage = ({ label, required }) => {
   return (
     <Autocomplete
       options={programmingLanguages}
       renderInput={(params) => (
-        <TextField {...params} label={label} />
+        <TextField {...params} label={label} required={required} />
       )}
     />
   );
