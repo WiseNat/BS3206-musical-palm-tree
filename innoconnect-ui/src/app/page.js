@@ -23,7 +23,7 @@ export default function Home() {
         </p>
       </div>
       <div>
-        <ButtonLink route="/ui/login" text="Start Innovating" />
+        <ButtonLink route="/login" text="Start Innovating" />
       </div>
     </main>
   );
