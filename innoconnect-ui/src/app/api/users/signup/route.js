@@ -1,7 +1,9 @@
+/**
+ * @author Tom Shortridge
+ */
 import User from "@/app/models/user";
 import { connect } from "@/app/config/databaseConnection";
 import { NextResponse } from "next/server";
-import bcryptjs from "bcryptjs";
 
 connect();
 
@@ -31,6 +33,7 @@ export async function POST(req) {
       success: true,
     });
   } catch (e) {
+    console.log(e);
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

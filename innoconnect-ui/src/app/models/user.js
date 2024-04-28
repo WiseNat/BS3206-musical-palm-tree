@@ -1,3 +1,6 @@
+/**
+ * @author Tom Shortridge
+ */
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
@@ -25,7 +28,7 @@ userSchema.pre("save", async function (next) {
     next();
   }
 
-  this.password = await bcrypt.hash(this.password, process.env.PWD_SALT);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 

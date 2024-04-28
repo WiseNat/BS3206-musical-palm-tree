@@ -1,10 +1,13 @@
+/**
+ * @author Tom Shortridge
+ */
 "use client";
 import Form from "@/app/components/Form";
 import { Button, Link, TextField, Typography } from "@mui/material";
 import Navbar from "@/app/components/Navbar";
-import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
@@ -17,9 +20,14 @@ export default function Login() {
   const startLogin = async (event) => {
     try {
       event.preventDefault();
-      const res = await axios.post("/api/users/login", user);
+      await signIn("credentials", {
+        redirect: false,
+        email: user.email,
+        password: user.password,
+      });
       router.push("/ui/home");
     } catch (e) {
+      console.log(e);
       setError("Username or Password may be incorrect!");
     }
   };
