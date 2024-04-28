@@ -4,8 +4,10 @@ import Navbar from "@/app/components/Navbar";
 import { Button, Link, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const router = useRouter();
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
@@ -16,6 +18,7 @@ export default function SignUp() {
   const createSignup = async () => {
     try {
       const res = await axios.post("/api/users/signup", user);
+      router.push("/login");
     } catch (e) {
       console.log("User registration failed!", e.message);
     }
@@ -59,7 +62,7 @@ export default function SignUp() {
           </Button>
 
           <Typography>
-            Or <Link href="/ui/login">Login</Link>
+            Or <Link href="/login">Login</Link>
           </Typography>
         </Form>
       </div>

@@ -8,22 +8,9 @@ export default function Home() {
         <div className="flex items-center">
           <Image src="/inno-logo.svg" width="100" height="100" />
           <h1 className="flex justify-center items-center text-9xl">
-            Innoconnect
+            Innoconnect Home
           </h1>
         </div>
-      </div>
-      <div className="object-left">
-        <p className="p-5">
-          Empower Your Ideas, Connect for Impact - InnoConnect: Building
-          Tomorrow Together
-        </p>
-        <p className="p-5">
-          Innovation waits for no one. Will you be left behind? Join
-          InnoConnect!
-        </p>
-      </div>
-      <div>
-        <ButtonLink route="/login" text="Start Innovating" />
       </div>
     </main>
   );
