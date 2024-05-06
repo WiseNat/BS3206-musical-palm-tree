@@ -1,5 +1,11 @@
-// This should be moved to DB at some point
-const roles = ["Project Manager", "Developer", "Business Analyst"];
+// TODO: Pull these from DB on startup
+const roles = [
+  "Project Manager",
+  "Developer",
+  "Business Analyst"
+];
+
+// TODO: Add more
 const communicationLanguages = [
   "English",
   "Spanish",
@@ -7,6 +13,7 @@ const communicationLanguages = [
   "French",
   "Russian",
 ];
+
 const timezones = [
   "UTC-12:00",
   "UTC-11:00",
@@ -49,4 +56,53 @@ const timezones = [
   "",
 ];
 
-export { roles, communicationLanguages, timezones };
+// TODO: Add more
+const programmingLanguages = [
+  "Python",
+  "Java",
+  "JavaScript",
+  "C",
+  "C++",
+  "C#",
+  "Ruby",
+  "Rust",
+  "PHP",
+  "Bash",
+  "Kotlin",
+  "Groovy",
+  "Go",
+  "Haskell",
+  "Basic"
+];
+
+// TODO: Add more technology options (use this: https://survey.stackoverflow.co/2023/#technology-most-popular-technologies)
+const technologies = [
+  "SvelteKit",
+  "NodeJS",
+  "Tkinter",
+  "Springboot",
+  "Express",
+  "React",
+  "Vue",
+  "NextJS",
+  "Maven",
+  "Django",
+  "Anaconda",
+  "MySQL",
+  "PostgreSQL",
+  "MongoDB",
+  "AWS",
+  "Azure",
+  "Google Cloud",
+  ".NET",
+  "Pandas",
+  "Tensorflow",
+  "Electron",
+  "Flutter",
+  "Docker",
+  "npm",
+  "Kubernetes",
+  "Bun"
+];
+
+export { roles, communicationLanguages, timezones, programmingLanguages, technologies };
