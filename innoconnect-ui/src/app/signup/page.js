@@ -6,6 +6,7 @@ import Form from "@/app/components/Form";
 import Navbar from "@/app/components/Navbar";
 import { Button, Link, TextField, Typography } from "@mui/material";
 import Select from "@/app/components/FormSelect";
+import LabelSwitch from "@/app/components/LabelSwitch";
 import { roles, communicationLanguages, timezones } from "@/app/lib/selection";
 import axios from "axios";
 import { useState } from "react";
@@ -21,6 +22,7 @@ export default function SignUp() {
     role: "",
     language: "",
     timezone: "",
+    matching: false,
   });
 
   const setRole = (value) => {
@@ -89,6 +91,10 @@ export default function SignUp() {
             onChange={setTimezone}
             items={timezones}
             required
+          />
+          <LabelSwitch
+            label="Inventor Matching"
+            action={(e) => setUser({ ...user, matching: e.target.checked })}
           />
           <Button variant="contained" type="submit">
             Submit

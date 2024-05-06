@@ -10,10 +10,15 @@ connect();
 export async function POST(req) {
   try {
     const resBody = await req.json();
-    const { email, role, timezone } = resBody;
+    const { email, role, timezone, matching, password } = resBody;
 
     const filter = { email: email };
-    const updatedFields = { role: role, timezone: timezone };
+    const updatedFields = {
+      role: role,
+      timezone: timezone,
+      matching: matching,
+      password: password,
+    };
 
     const user = await User.findOneAndUpdate(filter, updatedFields);
 

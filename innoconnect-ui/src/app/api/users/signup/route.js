@@ -19,9 +19,8 @@ export async function POST(req) {
       role,
       language,
       timezone,
+      matching,
     } = resBody;
-
-    console.log("received user", resBody);
 
     const user = await User.findOne({ email });
 
@@ -38,6 +37,7 @@ export async function POST(req) {
       role,
       language,
       timezone,
+      matching,
     });
 
     const createdUser = await receivedUser.save();
