@@ -28,6 +28,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  projectUrl: {
+    type: String,
+    required: true,
+  },
 });
 
 const Project = mongoose.models.project || mongoose.model("project", projectSchema);

@@ -4,18 +4,23 @@
 import Project from "@/app/models/project";
 import { connect } from "@/app/config/databaseConnection";
 import { NextResponse } from "next/server";
+import { isValidUrl } from "@/app/lib/validation";
 
 connect();
 
 export async function POST(req) {
   try {
     const resBody = await req.json();
-    const { title, description, mainCommunicationLanguage, mainTimezone, mainProgrammingLanguage, mainTechnology } = resBody;
+    const { title, description, mainCommunicationLanguage, mainTimezone, mainProgrammingLanguage, mainTechnology, projectUrl } = resBody;
 
     const project = await Project.findOne({ title });
 
     if (project) {
       return NextResponse({ error: "Project already exists!", status: 400 });
+    }
+
+    if (!isValidUrl(projectUrl)) {
+      return NextResponse({ error: "Invalid Project URL!", status: 400})
     }
 
     const receivedProject = new Project({
@@ -24,10 +29,11 @@ export async function POST(req) {
       mainCommunicationLanguage,
       mainTimezone,
       mainProgrammingLanguage,
-      mainTechnology
+      mainTechnology,
+      projectUrl
     });
 
-    const createdProject = await receivedProject.save();
+    await receivedProject.save();
 
     return NextResponse.json({
       message: "Project Created!",
