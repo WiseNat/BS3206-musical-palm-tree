@@ -10,7 +10,17 @@ connect();
 export async function POST(req) {
   try {
     const resBody = await req.json();
-    const { firstname, lastname, email, username, password } = resBody;
+    const {
+      firstname,
+      lastname,
+      email,
+      username,
+      password,
+      role,
+      language,
+      timezone,
+      matching,
+    } = resBody;
 
     const user = await User.findOne({ email });
 
@@ -24,6 +34,10 @@ export async function POST(req) {
       email,
       username,
       password: password,
+      role,
+      language,
+      timezone,
+      matching,
     });
 
     const createdUser = await receivedUser.save();

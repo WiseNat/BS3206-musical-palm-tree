@@ -5,6 +5,9 @@
 import Form from "@/app/components/Form";
 import Navbar from "@/app/components/Navbar";
 import { Button, Link, TextField, Typography } from "@mui/material";
+import Select from "@/app/components/FormSelect";
+import LabelSwitch from "@/app/components/LabelSwitch";
+import { roles, communicationLanguages, timezones } from "@/app/lib/selection";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -16,7 +19,23 @@ export default function SignUp() {
     lastname: "",
     email: "",
     password: "",
+    role: "",
+    language: "",
+    timezone: "",
+    matching: false,
   });
+
+  const setRole = (value) => {
+    setUser({ ...user, role: value });
+  };
+
+  const setLanguage = (value) => {
+    setUser({ ...user, language: value });
+  };
+
+  const setTimezone = (value) => {
+    setUser({ ...user, timezone: value });
+  };
 
   const createSignup = async () => {
     try {
@@ -59,6 +78,23 @@ export default function SignUp() {
             type="password"
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             required
+          />
+          <Select label="Role" onChange={setRole} items={roles} required />
+          <Select
+            label="Language"
+            onChange={setLanguage}
+            items={communicationLanguages}
+            required
+          />
+          <Select
+            label="Timezone"
+            onChange={setTimezone}
+            items={timezones}
+            required
+          />
+          <LabelSwitch
+            label="Inventor Matching"
+            action={(e) => setUser({ ...user, matching: e.target.checked })}
           />
           <Button variant="contained" type="submit">
             Submit

@@ -1,6 +1,6 @@
 "use client";
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 // TODO: Make this Dynamic - pull from DB
 // TODO: Add more communication language options
@@ -9,8 +9,8 @@ const communicationLanguages = [
   "Spanish",
   "German",
   "French",
-  "Russian"
-]
+  "Russian",
+];
 
 // TODO: Add logo for each language?
 // TODO: Change this to the tag based approach: https://mui.com/material-ui/react-autocomplete/#multiple-values

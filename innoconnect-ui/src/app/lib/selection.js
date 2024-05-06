@@ -1,8 +1,12 @@
-"use client";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-
-// TODO: Make this Dynamic - pull from DB
+// This should be moved to DB at some point
+const roles = ["Project Manager", "Developer", "Business Analyst"];
+const communicationLanguages = [
+  "English",
+  "Spanish",
+  "German",
+  "French",
+  "Russian",
+];
 const timezones = [
   "UTC-12:00",
   "UTC-11:00",
@@ -45,16 +49,4 @@ const timezones = [
   "",
 ];
 
-// TODO: Change this to the tag based approach: https://mui.com/material-ui/react-autocomplete/#multiple-values
-const SelectTimezone = ({ label, required }) => {
-  return (
-    <Autocomplete
-      options={timezones}
-      renderInput={(params) => (
-        <TextField {...params} label={label} required={required} />
-      )}
-    />
-  );
-};
-
-export default SelectTimezone;
+export { roles, communicationLanguages, timezones };
