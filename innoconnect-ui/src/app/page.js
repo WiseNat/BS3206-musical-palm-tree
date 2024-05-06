@@ -1,9 +1,11 @@
 import Image from "next/image";
 import ButtonLink from "@/app/components/ButtonLink";
+import Navbar from "@/app/components/Navbar";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main>
+      <Navbar />
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="flex items-center">
           <Image src="/inno-logo.svg" width="100" height="100" />
