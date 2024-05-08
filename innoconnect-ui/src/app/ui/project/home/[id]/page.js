@@ -46,11 +46,11 @@ export default function Page({ params }) {
     <div>
       <Navbar />
       <main>
-        <div class="whitespace-pre-line">
+        <div className="whitespace-pre-line">
           <b>{projectMeta}</b>
         </div>
         <br />
-        <div class="whitespace-pre-line"> 
+        <div className="whitespace-pre-line"> 
           {projectInfo}
         </div>
       </main>

@@ -11,7 +11,7 @@ connect();
 export async function POST(req) {
   try {
     const resBody = await req.json();
-    const { title, description, mainCommunicationLanguage, mainTimezone, mainProgrammingLanguage, mainTechnology, projectUrl } = resBody;
+    const { title, description, mainCommunicationLanguage, mainTimezone, mainProgrammingLanguage, mainTechnology, projectUrl, inventors } = resBody;
 
     const project = await Project.findOne({ title });
 
@@ -30,7 +30,8 @@ export async function POST(req) {
       mainTimezone,
       mainProgrammingLanguage,
       mainTechnology,
-      projectUrl
+      projectUrl,
+      inventors
     });
 
     await receivedProject.save();
