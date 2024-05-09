@@ -33,6 +33,22 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  inventors: [
+    {
+      email: {
+        type: String,
+        required: true,
+      },
+      role: {
+        type: String,
+        required: true,
+      },
+      joinDate: {
+        type: Date,
+        required: true
+      }
+    }
+  ]
 });
 
 projectSchema.plugin(mongoose_fuzzy_searching, {

@@ -19,6 +19,7 @@ export async function POST(req) {
       mainProgrammingLanguage,
       mainTechnology,
       projectUrl,
+      inventors
     } = resBody;
 
     const project = await Project.findOne({ title });
@@ -42,6 +43,7 @@ export async function POST(req) {
       mainProgrammingLanguage,
       mainTechnology,
       projectUrl,
+      inventors
     });
 
     await receivedProject.save();

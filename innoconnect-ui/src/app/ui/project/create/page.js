@@ -10,9 +10,12 @@ import Button from '@mui/material/Button';
 import axios from "axios";
 import { useState } from "react";
 import { communicationLanguages, programmingLanguages, technologies, timezones } from "@/app/lib/selection";
+import { useSession } from "next-auth/react";
 
 
 export default function Create() {
+  const { data: session } = useSession();
+
   const [project, setProject] = useState({
     title: "",
     description: "",
@@ -21,6 +24,13 @@ export default function Create() {
     mainProgrammingLanguage: "",
     mainTechnology: "",
     projectUrl: "",
+    inventors: [
+      {
+        email: session?.user.email,
+        role: "Founder",
+        joinDate: Date.now(),
+      }
+    ]
   });
 
   const createProject = async () => {

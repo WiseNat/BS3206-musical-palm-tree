@@ -47,7 +47,7 @@ export default function Profile() {
   useEffect(() => {
     async function getUser() {
       if (session) {
-        const res = await axios.get("/api/users/protected/find");
+        const res = await axios.get("/api/users/protected/findBySession");
         setUser({
           ...user,
           email: res.data.user.email,
