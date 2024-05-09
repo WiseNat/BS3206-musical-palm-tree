@@ -77,7 +77,7 @@ export default function Page({ params }) {
             <div className="py-6">
               <Divider orientation="horizontal"></Divider>
             </div>
-            <IconText text={project.projectUrl}>
+            <IconText text={project.projectUrl} isTextUrl>
               <LinkIcon />
             </IconText>
             <IconText text={project.mainProgrammingLanguage}>
