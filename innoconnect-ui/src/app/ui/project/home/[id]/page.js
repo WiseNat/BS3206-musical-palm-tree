@@ -3,8 +3,15 @@
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
+import { Card, CardContent, Divider, Typography, styled } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import LinkIcon from '@mui/icons-material/Link';
+import CodeIcon from '@mui/icons-material/Code';
+import LanguageIcon from '@mui/icons-material/Language';
+import IconText from "@/app/components/IconText";
+import { AccessTime } from "@mui/icons-material";
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 
 export default function Page({ params }) {
 
@@ -51,29 +58,58 @@ export default function Page({ params }) {
     getProject();
   }, []);
 
-  // TODO: Remove (once page is pretty)
-  const projectMeta = `Title = ${project.title}\nProject ID is '${project._id}'`
-  const projectInfo = `Description = '${project.description}'\nCommunication Language = ${project.mainCommunicationLanguage}\nProgramming Language = ${project.mainProgrammingLanguage}\nTechnology = ${project.mainTechnology}\nTimezone = ${project.mainTimezone}\nProject URL = ${project.projectUrl}`
-
-  // TODO: Make this pretty like in Wireframe
-  console.log(project)
+  const CentredCardContent = styled(CardContent)(`
+  padding: 16px;
+  &:last-child {
+    padding-bottom: 16px;
+  }`);
 
   return (
     <div>
       <Navbar />
       <main>
-        <div className="whitespace-pre-line">
-          <b>{projectMeta}</b>
-        </div>
-        <br />
-        <div className="whitespace-pre-line"> 
-          {projectInfo}
-        </div>
-        <br />
-        <div className="whitespace-pre-line">
-          {project.inventors.map((inventor) => (
-            <div key={inventor.name}>Name: {inventor.name}</div>
-          ))}
+        <Typography variant="h4" className="mb-4 px-9 py-12">{project.title}</Typography>
+        <div className="flex">
+          <div className="flex-none w-128 px-9">
+            <div>
+              {project.description}
+            </div>
+            <div className="py-6">
+              <Divider orientation="horizontal"></Divider>
+            </div>
+            <IconText text={project.projectUrl}>
+              <LinkIcon />
+            </IconText>
+            <IconText text={project.mainProgrammingLanguage}>
+              <CodeIcon />
+            </IconText>
+            <IconText text={project.mainTechnology}>
+              <PrecisionManufacturingIcon />
+            </IconText>
+            <IconText text={project.mainCommunicationLanguage}>
+              <LanguageIcon />
+            </IconText>
+            <IconText text={project.mainTimezone}>
+              <AccessTime />
+            </IconText>
+          </div>
+          <div className="flex-1 px-9">
+            {project.inventors.map((inventor) => (
+              <Card key={inventor.name} variant="outlined">
+                <CentredCardContent className="px-6">
+                  <div className="flex py-3">
+                    <IconText text={inventor.name} className="flex-none">
+                      <LanguageIcon />
+                    </IconText>
+                    <div className="flex-1" />
+                    <Typography className="flex-none">
+                      Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
+                    </Typography>
+                  </div>
+                </CentredCardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </main>
     </div>
