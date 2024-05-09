@@ -17,23 +17,37 @@ export default function Page({ params }) {
     mainProgrammingLanguage: "",
     mainTechnology: "",
     projectUrl: "",
+    inventors: [],
   });
 
   useEffect(() => {
     async function getProject() {
-      const res = await axios.post("/api/projects/find", { _id: params.id});
-      setProject({
+      const projectRes = await axios.post("/api/projects/find", { _id: params.id});
+            
+      const newProject = {
         ...project,
-        _id: res.data.project._id,
-        title: res.data.project.title,
-        description: res.data.project.description,
-        mainCommunicationLanguage: res.data.project.mainCommunicationLanguage,
-        mainTimezone: res.data.project.mainTimezone,
-        mainProgrammingLanguage: res.data.project.mainProgrammingLanguage,
-        mainTechnology: res.data.project.mainTechnology,
-        projectUrl: res.data.project.projectUrl,
-      });
+        _id: projectRes.data.project._id,
+        title: projectRes.data.project.title,
+        description: projectRes.data.project.description,
+        mainCommunicationLanguage: projectRes.data.project.mainCommunicationLanguage,
+        mainTimezone: projectRes.data.project.mainTimezone,
+        mainProgrammingLanguage: projectRes.data.project.mainProgrammingLanguage,
+        mainTechnology: projectRes.data.project.mainTechnology,
+        projectUrl: projectRes.data.project.projectUrl,
+        inventors: projectRes.data.project.inventors
+      };
+
+      for (let i = 0; i < newProject.inventors.length; i++) {
+        const inventorRes = await axios.post("/api/users/find", { email: newProject.inventors[i].email});
+        newProject.inventors[i] = {
+          ...newProject.inventors[i],
+          name: inventorRes.data.user.firstname + " " + inventorRes.data.user.lastname,
+        }
+      }
+
+      setProject(newProject)
     }
+
     getProject();
   }, []);
 
@@ -42,6 +56,8 @@ export default function Page({ params }) {
   const projectInfo = `Description = '${project.description}'\nCommunication Language = ${project.mainCommunicationLanguage}\nProgramming Language = ${project.mainProgrammingLanguage}\nTechnology = ${project.mainTechnology}\nTimezone = ${project.mainTimezone}\nProject URL = ${project.projectUrl}`
 
   // TODO: Make this pretty like in Wireframe
+  console.log(project)
+
   return (
     <div>
       <Navbar />
@@ -52,6 +68,12 @@ export default function Page({ params }) {
         <br />
         <div className="whitespace-pre-line"> 
           {projectInfo}
+        </div>
+        <br />
+        <div className="whitespace-pre-line">
+          {project.inventors.map((inventor) => (
+            <div key={inventor.name}>Name: {inventor.name}</div>
+          ))}
         </div>
       </main>
     </div>
