@@ -11,16 +11,27 @@ connect();
 export async function POST(req) {
   try {
     const resBody = await req.json();
-    const { title, description, mainCommunicationLanguage, mainTimezone, mainProgrammingLanguage, mainTechnology, projectUrl } = resBody;
+    const {
+      title,
+      description,
+      mainCommunicationLanguage,
+      mainTimezone,
+      mainProgrammingLanguage,
+      mainTechnology,
+      projectUrl,
+    } = resBody;
 
     const project = await Project.findOne({ title });
 
     if (project) {
-      return NextResponse({ error: "Project already exists!", status: 400 });
+      return NextResponse.json({
+        error: "Project already exists!",
+        status: 400,
+      });
     }
 
     if (!isValidUrl(projectUrl)) {
-      return NextResponse({ error: "Invalid Project URL!", status: 400})
+      return NextResponse.json({ error: "Invalid Project URL!", status: 400 });
     }
 
     const receivedProject = new Project({
@@ -30,7 +41,7 @@ export async function POST(req) {
       mainTimezone,
       mainProgrammingLanguage,
       mainTechnology,
-      projectUrl
+      projectUrl,
     });
 
     await receivedProject.save();

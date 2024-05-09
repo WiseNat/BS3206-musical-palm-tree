@@ -48,7 +48,7 @@ export default function SignUp() {
   return (
     <main>
       <Navbar />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      <div>
         <Form
           title="Sign Up"
           submitAction={createSignup}

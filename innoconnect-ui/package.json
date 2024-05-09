@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
+    "@rowboat/mongoose-fuzzy-searching": "^2.0.3",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
