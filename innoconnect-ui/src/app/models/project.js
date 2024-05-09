@@ -2,6 +2,7 @@
  * @author Nathan Wise
  */
 import mongoose from "mongoose";
+const mongoose_fuzzy_searching = require("@rowboat/mongoose-fuzzy-searching");
 
 const projectSchema = new mongoose.Schema({
   title: {
@@ -50,6 +51,17 @@ const projectSchema = new mongoose.Schema({
   ]
 });
 
-const Project = mongoose.models.project || mongoose.model("project", projectSchema);
+projectSchema.plugin(mongoose_fuzzy_searching, {
+  fields: [
+    "title",
+    "mainCommunicationLanguage",
+    "mainTimezone",
+    "mainProgrammingLanguage",
+    "mainTechnology",
+  ],
+});
+
+const Project =
+  mongoose.models.project || mongoose.model("project", projectSchema);
 
 export default Project;

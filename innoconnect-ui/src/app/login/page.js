@@ -34,7 +34,7 @@ export default function Login() {
   return (
     <main>
       <Navbar />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      <div>
         <Form title="Login" submitAction={startLogin} className="mx-16 my-4">
           <Typography color="red">{error}</Typography>
           <TextField
