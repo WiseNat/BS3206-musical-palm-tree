@@ -3,7 +3,7 @@
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
-import { Card, CardContent, Divider, Typography, styled } from "@mui/material";
+import { Card, CardContent, Divider, Tooltip, Typography, capitalize, styled } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
@@ -12,6 +12,11 @@ import LanguageIcon from '@mui/icons-material/Language';
 import IconText from "@/app/components/IconText";
 import { AccessTime } from "@mui/icons-material";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import StarIcon from '@mui/icons-material/Star';
+import DataObjectIcon from '@mui/icons-material/DataObject';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import GroupsIcon from '@mui/icons-material/Groups';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 export default function Page({ params }) {
 
@@ -64,6 +69,22 @@ export default function Page({ params }) {
     padding-bottom: 16px;
   }`);
 
+  function getRoleIcon(role) {
+    const sanitisedRole = role.toLowerCase();
+
+    if (sanitisedRole == "founder") {
+      return <StarIcon />
+    } else if (sanitisedRole == "developer") {
+      return <CodeIcon />
+    } else if (sanitisedRole == "quality assurance") {
+      return <AssignmentTurnedInIcon />
+    } else if (sanitisedRole == "project manager") {
+      return <GroupsIcon />
+    } else {
+      return <HelpOutlineIcon />
+    }
+  }
+
   return (
     <div>
       <Navbar />
@@ -81,7 +102,7 @@ export default function Page({ params }) {
               <LinkIcon />
             </IconText>
             <IconText text={project.mainProgrammingLanguage}>
-              <CodeIcon />
+              <DataObjectIcon />
             </IconText>
             <IconText text={project.mainTechnology}>
               <PrecisionManufacturingIcon />
@@ -99,7 +120,9 @@ export default function Page({ params }) {
                 <CentredCardContent className="px-6">
                   <div className="flex py-3">
                     <IconText text={inventor.name} className="flex-none">
-                      <LanguageIcon />
+                      <Tooltip title={capitalize(inventor.role)}>
+                        {getRoleIcon(inventor.role)}
+                      </Tooltip>
                     </IconText>
                     <div className="flex-1" />
                     <Typography className="flex-none">
