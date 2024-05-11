@@ -3,6 +3,7 @@ import ButtonLink from "@/app/components/ButtonLink";
 import Navbar from "@/app/components/Navbar";
 
 export default function Home() {
+  
   return (
     <main>
       <Navbar />
@@ -25,7 +26,7 @@ export default function Home() {
         </p>
       </div>
       <div>
-        <ButtonLink route="/login" text="Start Innovating" />
+        <ButtonLink route="/ui/home" text="Start Innovating" />
       </div>
     </main>
   );
