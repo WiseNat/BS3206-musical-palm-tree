@@ -8,7 +8,7 @@ function getRoleIcon(role) {
     const sanitisedRole = role.toLowerCase();
 
     if (sanitisedRole == "founder") {
-        return <StarIcon />
+        return <StarIcon color="warning" />
     } else if (sanitisedRole == "developer") {
         return <CodeIcon />
     } else if (sanitisedRole == "quality assurance") {

@@ -7,6 +7,7 @@ import CentredCardContent from "@/app/components/CentredCardContent";
 import IconText from "@/app/components/IconText";
 import Select from "@/app/components/FormSelect";
 import { getRoleIcon } from "@/app/lib/role";
+import { roles } from "@/app/lib/selection";
 import { Card, Divider, Dialog, Tooltip, Typography, capitalize, DialogTitle, List, ListItem, ListItemButton, Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import LinkIcon from '@mui/icons-material/Link';
@@ -16,10 +17,10 @@ import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturi
 import DataObjectIcon from '@mui/icons-material/DataObject';
 import StarIcon from '@mui/icons-material/Star';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { roles } from "@/app/lib/selection";
 
 export default function Page({ params }) {
 
@@ -78,6 +79,17 @@ export default function Page({ params }) {
 
     handleClose();
   };
+
+  const removeInventor = async (event) => {
+    const email = event.currentTarget.id;
+    await axios.post("/api/projects/removeInventor", { _id: project._id, email: email })
+    project.inventors.splice(project.inventors.findIndex(item => item.email == email), 1)
+
+    setProject({
+      ...project,
+      inventors: project.inventors,
+    })
+  }
 
   useEffect(() => {
     async function getProject() {
@@ -162,23 +174,30 @@ export default function Page({ params }) {
                 <div className="flex-1" />
                 {isOwner() ? (
                   <IconButton color="inherit" onClick={handleOpen}>
-                    <AddIcon />
+                    <AddIcon color="success" />
                   </IconButton>
                 ) : null}
               </div>
               {project.inventors.map((inventor) => (
                 <Card key={inventor.email} variant="outlined">
                   <CentredCardContent className="px-6">
-                    <div className="flex py-3">
+                    <div className="flex items-center py-3">
                       <IconText text={inventor.name} className="flex-none">
                         <Tooltip title={capitalize(inventor.role)}>
                           {getRoleIcon(inventor.role)}
                         </Tooltip>
                       </IconText>
                       <div className="flex-1" />
-                      <Typography className="flex-none">
+                      <Typography>
                         Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
                       </Typography>
+                      {isOwner() && inventor.role.toLowerCase() != "founder" ? (
+                          <div className="pl-6">
+                            <IconButton id={inventor.email} onClick={removeInventor} className="flex-none">
+                              <DeleteIcon color="error" />
+                            </IconButton>
+                          </div>
+                      ) : null}
                     </div>
                   </CentredCardContent>
                 </Card>
