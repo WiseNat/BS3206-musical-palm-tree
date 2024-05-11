@@ -11,10 +11,12 @@ import axios from "axios";
 import { useState } from "react";
 import { communicationLanguages, programmingLanguages, technologies, timezones } from "@/app/lib/selection";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 export default function Create() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [project, setProject] = useState({
     title: "",
@@ -33,10 +35,11 @@ export default function Create() {
     ]
   });
 
-  const createProject = async () => {
+  const createProject = async (event) => {
     try {
-      await axios.post("/api/projects/create", project);
-      // TODO: Route to created project page, use rest from axios.post to get _id of project...
+      event.preventDefault();
+      const res = await axios.post("/api/projects/create", project);
+      router.push(`/ui/project/home/${res.data.project._id}`);
     } catch (e) {
       console.log("Project creation failed!", e.message);
     }

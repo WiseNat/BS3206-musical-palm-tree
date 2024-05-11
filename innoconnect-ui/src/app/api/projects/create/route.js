@@ -49,7 +49,7 @@ export async function POST(req) {
     await receivedProject.save();
 
     return NextResponse.json({
-      message: "Project Created!",
+      project: receivedProject,
       success: true,
     });
   } catch (e) {

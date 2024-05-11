@@ -63,7 +63,6 @@ const Navbar = ({}) => {
           </Typography>
           <IconButton color="inherit" onClick={handleClick}>
             {" "}
-            {/* TODO: Make this link to account page */}
             <AccountCircleOutlinedIcon />
           </IconButton>
           <Menu

@@ -3,19 +3,23 @@
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
-import { Card, Divider, Tooltip, Typography, capitalize } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import CentredCardContent from "@/app/components/CentredCardContent";
+import IconText from "@/app/components/IconText";
+import Select from "@/app/components/FormSelect";
+import { getRoleIcon } from "@/app/lib/role";
+import { Card, Divider, Dialog, Tooltip, Typography, capitalize, DialogTitle, List, ListItem, ListItemButton, Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import LinkIcon from '@mui/icons-material/Link';
 import LanguageIcon from '@mui/icons-material/Language';
-import IconText from "@/app/components/IconText";
 import { AccessTime } from "@mui/icons-material";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import DataObjectIcon from '@mui/icons-material/DataObject';
-import { getRoleIcon } from "@/app/lib/role";
-import { useSession } from "next-auth/react";
 import StarIcon from '@mui/icons-material/Star';
-import CentredCardContent from "@/app/components/CentredCardContent";
+import AddIcon from '@mui/icons-material/Add';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { roles } from "@/app/lib/selection";
 
 export default function Page({ params }) {
 
@@ -32,12 +36,53 @@ export default function Page({ params }) {
     projectUrl: "",
     inventors: [],
     isOwner: false,
+    recommendedInventors: [],
   });
+
+  const handleInventorMatchingRoleSelected = async (role) => {
+    try {
+      const res = await axios.post("/api/inventor-matching/find", { role: role, project: project });
+      setProject({
+        ...project,
+        recommendedInventors: res.data.inventors
+      });
+
+    } catch (e) {
+      console.log("Project Search failed! ", e);
+    }
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setProject({
+      ...project,
+      recommendedInventors: []
+    });
+
+    setOpen(true)
+  };
+
+  const addInventorToProject = async (inventor) => {
+    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: inventor.email, role: inventor.role })
+
+    const email = addInventorRes.data.inventor.email;
+    const findUserRes = await axios.post("/api/users/find", { email: email});
+
+    project.inventors.push({
+      name: findUserRes.data.user.firstname + " " + findUserRes.data.user.lastname,
+      role: addInventorRes.data.inventor.role,
+      email: email,
+      joinDate: addInventorRes.data.inventor.joinDate,
+    })
+
+    handleClose();
+  };
 
   useEffect(() => {
     async function getProject() {
       const projectRes = await axios.post("/api/projects/find", { _id: params.id});
-            
+
       var newProject = {
         ...project,
         _id: projectRes.data.project._id,
@@ -72,19 +117,17 @@ export default function Page({ params }) {
     getProject();
   }, []);
 
-  function isOwnerIconText() {
-    if (project.isOwner) {
-      return <IconText text="You own this project"><StarIcon /></IconText>
-    }
+  function isOwner() {
+    return project.isOwner;
   }
 
   return (
-    <>
+    <div>
       <Navbar />
       <main>
         <Typography variant="h4" className="mb-4 px-9 py-12">{project.title}</Typography>
-        <div className="flex">
-          <div className="flex-none w-128 px-9">
+        <div className="flex pb-9">
+          <div className="flex-none w-[28%] px-9 text-wrap break-pretty">
             <div>
               {project.description}
             </div>
@@ -106,12 +149,25 @@ export default function Page({ params }) {
             <IconText text={project.mainTimezone}>
               <AccessTime />
             </IconText>
-            {isOwnerIconText()}
+            {isOwner() ? (
+              <IconText text="You own this project">
+                <StarIcon />
+              </IconText>
+            ) : null}
           </div>
           <div className="flex-1 px-9">
             <div className="flex flex-col space-y-4">
+              <div className="flex">
+                <Typography variant="h5" className="flex-none">Inventors</Typography>
+                <div className="flex-1" />
+                {isOwner() ? (
+                  <IconButton color="inherit" onClick={handleOpen}>
+                    <AddIcon />
+                  </IconButton>
+                ) : null}
+              </div>
               {project.inventors.map((inventor) => (
-                <Card key={inventor.name} variant="outlined">
+                <Card key={inventor.email} variant="outlined">
                   <CentredCardContent className="px-6">
                     <div className="flex py-3">
                       <IconText text={inventor.name} className="flex-none">
@@ -131,6 +187,23 @@ export default function Page({ params }) {
           </div>
         </div>
       </main>
-    </>
+      <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={"sm"}>
+          <DialogTitle>Add Inventor</DialogTitle>
+          <Box className="px-4">
+            <Select label="Role" onChange={handleInventorMatchingRoleSelected} items={roles} />
+            <List>
+              {project.recommendedInventors.map((inventor) => (
+                <ListItem disableGutters key={inventor.email}>
+                  <ListItemButton onClick={() => addInventorToProject(inventor)}>
+                    <IconText text={inventor.name}>
+                      {getRoleIcon(inventor.role)}
+                    </IconText>
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Dialog>
+    </div>
   );
 }
