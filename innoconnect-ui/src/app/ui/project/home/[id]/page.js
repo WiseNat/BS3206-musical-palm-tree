@@ -3,7 +3,7 @@
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
-import { Card, CardContent, Divider, Tooltip, Typography, capitalize, styled } from "@mui/material";
+import { Card, Divider, Tooltip, Typography, capitalize } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
@@ -15,6 +15,7 @@ import DataObjectIcon from '@mui/icons-material/DataObject';
 import { getRoleIcon } from "@/app/lib/role";
 import { useSession } from "next-auth/react";
 import StarIcon from '@mui/icons-material/Star';
+import CentredCardContent from "@/app/components/CentredCardContent";
 
 export default function Page({ params }) {
 
@@ -70,12 +71,6 @@ export default function Page({ params }) {
 
     getProject();
   }, []);
-
-  const CentredCardContent = styled(CardContent)(`
-  padding: 16px;
-  &:last-child {
-    padding-bottom: 16px;
-  }`);
 
   function isOwnerIconText() {
     if (project.isOwner) {
