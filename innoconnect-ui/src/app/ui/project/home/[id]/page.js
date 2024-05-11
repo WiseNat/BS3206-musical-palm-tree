@@ -7,18 +7,18 @@ import { Card, CardContent, Divider, Tooltip, Typography, capitalize, styled } f
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
-import CodeIcon from '@mui/icons-material/Code';
 import LanguageIcon from '@mui/icons-material/Language';
 import IconText from "@/app/components/IconText";
 import { AccessTime } from "@mui/icons-material";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import StarIcon from '@mui/icons-material/Star';
 import DataObjectIcon from '@mui/icons-material/DataObject';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import GroupsIcon from '@mui/icons-material/Groups';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { getRoleIcon } from "@/app/lib/role";
+import { useSession } from "next-auth/react";
+import StarIcon from '@mui/icons-material/Star';
 
 export default function Page({ params }) {
+
+  const { data: session } = useSession();
 
   const [project, setProject] = useState({
     _id: "",
@@ -30,13 +30,14 @@ export default function Page({ params }) {
     mainTechnology: "",
     projectUrl: "",
     inventors: [],
+    isOwner: false,
   });
 
   useEffect(() => {
     async function getProject() {
       const projectRes = await axios.post("/api/projects/find", { _id: params.id});
             
-      const newProject = {
+      var newProject = {
         ...project,
         _id: projectRes.data.project._id,
         title: projectRes.data.project.title,
@@ -55,6 +56,13 @@ export default function Page({ params }) {
           ...newProject.inventors[i],
           name: inventorRes.data.user.firstname + " " + inventorRes.data.user.lastname,
         }
+
+        if (newProject.inventors[i].role.toLowerCase() == "founder" && newProject.inventors[i].email == session.user.email) {          
+          newProject = {
+            ...newProject,
+            isOwner: true,
+          }
+        }
       }
 
       setProject(newProject)
@@ -69,24 +77,14 @@ export default function Page({ params }) {
     padding-bottom: 16px;
   }`);
 
-  function getRoleIcon(role) {
-    const sanitisedRole = role.toLowerCase();
-
-    if (sanitisedRole == "founder") {
-      return <StarIcon />
-    } else if (sanitisedRole == "developer") {
-      return <CodeIcon />
-    } else if (sanitisedRole == "quality assurance") {
-      return <AssignmentTurnedInIcon />
-    } else if (sanitisedRole == "project manager") {
-      return <GroupsIcon />
-    } else {
-      return <HelpOutlineIcon />
+  function isOwnerIconText() {
+    if (project.isOwner) {
+      return <IconText text="You own this project"><StarIcon /></IconText>
     }
   }
 
   return (
-    <div>
+    <>
       <Navbar />
       <main>
         <Typography variant="h4" className="mb-4 px-9 py-12">{project.title}</Typography>
@@ -113,28 +111,31 @@ export default function Page({ params }) {
             <IconText text={project.mainTimezone}>
               <AccessTime />
             </IconText>
+            {isOwnerIconText()}
           </div>
           <div className="flex-1 px-9">
-            {project.inventors.map((inventor) => (
-              <Card key={inventor.name} variant="outlined">
-                <CentredCardContent className="px-6">
-                  <div className="flex py-3">
-                    <IconText text={inventor.name} className="flex-none">
-                      <Tooltip title={capitalize(inventor.role)}>
-                        {getRoleIcon(inventor.role)}
-                      </Tooltip>
-                    </IconText>
-                    <div className="flex-1" />
-                    <Typography className="flex-none">
-                      Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
-                    </Typography>
-                  </div>
-                </CentredCardContent>
-              </Card>
-            ))}
+            <div className="flex flex-col space-y-4">
+              {project.inventors.map((inventor) => (
+                <Card key={inventor.name} variant="outlined">
+                  <CentredCardContent className="px-6">
+                    <div className="flex py-3">
+                      <IconText text={inventor.name} className="flex-none">
+                        <Tooltip title={capitalize(inventor.role)}>
+                          {getRoleIcon(inventor.role)}
+                        </Tooltip>
+                      </IconText>
+                      <div className="flex-1" />
+                      <Typography className="flex-none">
+                        Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
+                      </Typography>
+                    </div>
+                  </CentredCardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
