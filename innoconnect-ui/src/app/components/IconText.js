@@ -3,9 +3,9 @@ import { Link, Stack, Typography } from "@mui/material";
 const IconText = ({text, children, isTextUrl = false}) => {
     let textJsx;
     if (isTextUrl) {
-        textJsx = <Link href={text} variant="body1">{text}</Link>
+        textJsx = <Link href={text}>{text}</Link>
     } else {
-        textJsx = <Typography variant="body1">{text}</Typography>
+        textJsx = <Typography>{text}</Typography>
     }
 
     return (
