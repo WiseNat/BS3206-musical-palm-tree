@@ -5,8 +5,9 @@
 import Navbar from "@/app/components/Navbar";
 import CentredCardContent from "@/app/components/CentredCardContent";
 import IconText from "@/app/components/IconText";
+import Select from "@/app/components/FormSelect";
 import { getRoleIcon } from "@/app/lib/role";
-import { Card, Divider, Dialog, Tooltip, Typography, capitalize, DialogTitle, List, ListItem, ListItemText, ListItemButton } from "@mui/material";
+import { Card, Divider, Dialog, Tooltip, Typography, capitalize, DialogTitle, List, ListItem, ListItemButton, Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import LinkIcon from '@mui/icons-material/Link';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -18,6 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { roles } from "@/app/lib/selection";
 
 export default function Page({ params }) {
 
@@ -37,21 +39,28 @@ export default function Page({ params }) {
     recommendedInventors: [],
   });
 
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-  const handleOpen = async () => {
+  const handleInventorMatchingRoleSelected = async (role) => {
     try {
-      // TODO: Reduce payload sent?
-      const res = await axios.post("/api/users/findInventors", project);
+      const res = await axios.post("/api/inventor-matching/find", { role: role, project: project });
       setProject({
         ...project,
         recommendedInventors: res.data.inventors
       });
 
-      setOpen(true)
     } catch (e) {
       console.log("Project Search failed! ", e);
     }
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setProject({
+      ...project,
+      recommendedInventors: []
+    });
+
+    setOpen(true)
   };
 
   const addInventorToProject = async (inventor) => {
@@ -177,22 +186,24 @@ export default function Page({ params }) {
             </div>
           </div>
         </div>
-        <Dialog onClose={handleClose} open={open}>
-          <DialogTitle>Add a Recommended Inventor</DialogTitle>
-          <List>
-            {project.recommendedInventors.map((inventor) => (
-              <ListItem disableGutters key={inventor.email}>
-                {/* TODO: onClick for button (add inventor to project) */}
-                <ListItemButton onClick={() => addInventorToProject(inventor)}>
-                  <IconText text={inventor.name}>
-                    {getRoleIcon(inventor.role)}
-                  </IconText>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Dialog>
       </main>
+      <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={"sm"}>
+          <DialogTitle>Add Inventor</DialogTitle>
+          <Box className="px-4">
+            <Select label="Role" onChange={handleInventorMatchingRoleSelected} items={roles} />
+            <List>
+              {project.recommendedInventors.map((inventor) => (
+                <ListItem disableGutters key={inventor.email}>
+                  <ListItemButton onClick={() => addInventorToProject(inventor)}>
+                    <IconText text={inventor.name}>
+                      {getRoleIcon(inventor.role)}
+                    </IconText>
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </Dialog>
     </div>
   );
 }

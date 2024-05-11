@@ -9,15 +9,15 @@ connect();
 
 export async function POST(req) {
   try {
-    // TODO: Use this when finding inventors
     const resBody = await req.json();
-    // const { email } = resBody;
+    const { role, project } = resBody;
 
-    // TODO: Change this... obviously...
-    // 1. Do NOT return inventors in the project already
-    // 2. Find inventors that match the project preferences???
-    // 3. Re-read original docs to figure out what I'm actually doing
-    const inventors = await User.find({ });
+    const excludedEmails = [];
+    for (inventor of project.inventors) {
+      excludedEmails.push(inventor.email);
+    }
+
+    const inventors = await User.find({ role: role, language: project.mainCommunicationLanguage, timezone: project.mainTimezone, matching: true, email: { $nin: excludedEmails } });
 
     const recommendedInventors = []
     for (var inventor of inventors) {
