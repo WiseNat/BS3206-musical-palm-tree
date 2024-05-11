@@ -14,8 +14,6 @@ export async function POST(req) {
 
     const projects = await Project.fuzzySearch(query);
 
-    console.log("projects", projects);
-
     if (projects) {
       return NextResponse.json({ projects: projects, status: 200 });
     }

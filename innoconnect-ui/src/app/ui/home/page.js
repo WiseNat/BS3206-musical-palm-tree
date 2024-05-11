@@ -1,21 +1,23 @@
 /**
  * @author Tom Shortridge
  */
-import Image from "next/image";
 import { auth } from "@/app/auth";
 import Navbar from "@/app/components/Navbar";
+import ButtonLink from "@/app/components/ButtonLink";
+import { Typography } from "@mui/material";
 
 export default async function Home() {
   const session = await auth();
   return (
     <main>
       <Navbar />
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <div className="flex items-center">
-          <Image src="/inno-logo.svg" width="100" height="100" />
-          <h1 className="flex justify-center items-center text-9xl">
-            Hello {session?.user.firstname}
-          </h1>
+      <div className="mx-16 my-4">
+        <Typography variant="h4" className="mb-4">
+          Hello {session?.user.firstname}
+        </Typography>
+        <div className="flex flex-col space-y-4">
+          <ButtonLink route="/ui/project/search" text="Search for existing Projects" />
+          <ButtonLink route="/ui/project/create" text="Create Project" />
         </div>
       </div>
     </main>

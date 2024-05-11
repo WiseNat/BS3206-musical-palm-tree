@@ -3,17 +3,23 @@
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
-import { Card, CardContent, Divider, Typography, styled } from "@mui/material";
+import { Card, Divider, Tooltip, Typography, capitalize } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
-import CodeIcon from '@mui/icons-material/Code';
 import LanguageIcon from '@mui/icons-material/Language';
 import IconText from "@/app/components/IconText";
 import { AccessTime } from "@mui/icons-material";
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import DataObjectIcon from '@mui/icons-material/DataObject';
+import { getRoleIcon } from "@/app/lib/role";
+import { useSession } from "next-auth/react";
+import StarIcon from '@mui/icons-material/Star';
+import CentredCardContent from "@/app/components/CentredCardContent";
 
 export default function Page({ params }) {
+
+  const { data: session } = useSession();
 
   const [project, setProject] = useState({
     _id: "",
@@ -25,13 +31,14 @@ export default function Page({ params }) {
     mainTechnology: "",
     projectUrl: "",
     inventors: [],
+    isOwner: false,
   });
 
   useEffect(() => {
     async function getProject() {
       const projectRes = await axios.post("/api/projects/find", { _id: params.id});
             
-      const newProject = {
+      var newProject = {
         ...project,
         _id: projectRes.data.project._id,
         title: projectRes.data.project.title,
@@ -50,6 +57,13 @@ export default function Page({ params }) {
           ...newProject.inventors[i],
           name: inventorRes.data.user.firstname + " " + inventorRes.data.user.lastname,
         }
+
+        if (newProject.inventors[i].role.toLowerCase() == "founder" && newProject.inventors[i].email == session.user.email) {          
+          newProject = {
+            ...newProject,
+            isOwner: true,
+          }
+        }
       }
 
       setProject(newProject)
@@ -58,14 +72,14 @@ export default function Page({ params }) {
     getProject();
   }, []);
 
-  const CentredCardContent = styled(CardContent)(`
-  padding: 16px;
-  &:last-child {
-    padding-bottom: 16px;
-  }`);
+  function isOwnerIconText() {
+    if (project.isOwner) {
+      return <IconText text="You own this project"><StarIcon /></IconText>
+    }
+  }
 
   return (
-    <div>
+    <>
       <Navbar />
       <main>
         <Typography variant="h4" className="mb-4 px-9 py-12">{project.title}</Typography>
@@ -77,11 +91,11 @@ export default function Page({ params }) {
             <div className="py-6">
               <Divider orientation="horizontal"></Divider>
             </div>
-            <IconText text={project.projectUrl}>
+            <IconText text={project.projectUrl} isTextUrl>
               <LinkIcon />
             </IconText>
             <IconText text={project.mainProgrammingLanguage}>
-              <CodeIcon />
+              <DataObjectIcon />
             </IconText>
             <IconText text={project.mainTechnology}>
               <PrecisionManufacturingIcon />
@@ -92,26 +106,31 @@ export default function Page({ params }) {
             <IconText text={project.mainTimezone}>
               <AccessTime />
             </IconText>
+            {isOwnerIconText()}
           </div>
           <div className="flex-1 px-9">
-            {project.inventors.map((inventor) => (
-              <Card key={inventor.name} variant="outlined">
-                <CentredCardContent className="px-6">
-                  <div className="flex py-3">
-                    <IconText text={inventor.name} className="flex-none">
-                      <LanguageIcon />
-                    </IconText>
-                    <div className="flex-1" />
-                    <Typography className="flex-none">
-                      Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
-                    </Typography>
-                  </div>
-                </CentredCardContent>
-              </Card>
-            ))}
+            <div className="flex flex-col space-y-4">
+              {project.inventors.map((inventor) => (
+                <Card key={inventor.name} variant="outlined">
+                  <CentredCardContent className="px-6">
+                    <div className="flex py-3">
+                      <IconText text={inventor.name} className="flex-none">
+                        <Tooltip title={capitalize(inventor.role)}>
+                          {getRoleIcon(inventor.role)}
+                        </Tooltip>
+                      </IconText>
+                      <div className="flex-1" />
+                      <Typography className="flex-none">
+                        Joined {(new Date(inventor.joinDate)).toLocaleDateString()}
+                      </Typography>
+                    </div>
+                  </CentredCardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

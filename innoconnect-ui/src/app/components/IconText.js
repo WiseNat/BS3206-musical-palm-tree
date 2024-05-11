@@ -1,10 +1,17 @@
-import { Stack, Typography } from "@mui/material";
+import { Link, Stack, Typography } from "@mui/material";
 
-const IconText = ({text, children}) => {
+const IconText = ({text, children, isTextUrl = false}) => {
+    let textJsx;
+    if (isTextUrl) {
+        textJsx = <Link href={text} variant="body1">{text}</Link>
+    } else {
+        textJsx = <Typography variant="body1">{text}</Typography>
+    }
+
     return (
         <Stack alignItems="center" direction="row" gap={2}>
             {children}
-            <Typography variant="body1">{text}</Typography>
+            {textJsx}
         </Stack>
     )
 }
