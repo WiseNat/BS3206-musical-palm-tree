@@ -55,17 +55,19 @@ export default function Page({ params }) {
   };
 
   const addInventorToProject = async (inventor) => {
-    const res = await axios.post("/api/projects/addInventor", { _id: project._id, email: inventor.email, role: inventor.role })
-    handleClose();
+    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: inventor.email, role: inventor.role })
 
-    console.log(res);
+    const email = addInventorRes.data.inventor.email;
+    const findUserRes = await axios.post("/api/users/find", { email: email});
 
     project.inventors.push({
-      name: res.data.inventor.firstname + " " + res.data.inventor.lastname,
-      role: res.data.inventor.role,
-      email: res.data.inventor.email,
-      joinDate: res.data.inventor.joinDate,
+      name: findUserRes.data.user.firstname + " " + findUserRes.data.user.lastname,
+      role: addInventorRes.data.inventor.role,
+      email: email,
+      joinDate: addInventorRes.data.inventor.joinDate,
     })
+
+    handleClose();
   };
 
   useEffect(() => {
@@ -146,7 +148,7 @@ export default function Page({ params }) {
           </div>
           <div className="flex-1 px-9">
             <div className="flex flex-col space-y-4">
-              <di className="flex">
+              <div className="flex">
                 <Typography variant="h5" className="flex-none">Inventors</Typography>
                 <div className="flex-1" />
                 {isOwner() ? (
@@ -154,7 +156,7 @@ export default function Page({ params }) {
                     <AddIcon />
                   </IconButton>
                 ) : null}
-              </di>
+              </div>
               {project.inventors.map((inventor) => (
                 <Card key={inventor.email} variant="outlined">
                   <CentredCardContent className="px-6">
