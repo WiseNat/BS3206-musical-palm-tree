@@ -5,10 +5,8 @@
 import Navbar from "@/app/components/Navbar";
 import CentredCardContent from "@/app/components/CentredCardContent";
 import IconText from "@/app/components/IconText";
-import Select from "@/app/components/FormSelect";
 import { getRoleIcon } from "@/app/lib/role";
-import { roles } from "@/app/lib/selection";
-import { Card, Divider, Dialog, Tooltip, Typography, capitalize, DialogTitle, List, ListItem, ListItemButton, Box } from "@mui/material";
+import { Card, Divider, Tooltip, Typography, capitalize } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import LinkIcon from '@mui/icons-material/Link';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -18,9 +16,12 @@ import DataObjectIcon from '@mui/icons-material/DataObject';
 import StarIcon from '@mui/icons-material/Star';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { InventorMatchingAddDialog } from "@/app/components/InventorMatchingAddDialog";
+import { AddInventorDialog } from "@/app/components/AddInventorDialog";
 
 export default function Page({ params }) {
 
@@ -37,47 +38,32 @@ export default function Page({ params }) {
     projectUrl: "",
     inventors: [],
     isOwner: false,
-    recommendedInventors: [],
   });
 
-  const handleInventorMatchingRoleSelected = async (role) => {
-    try {
-      const res = await axios.post("/api/inventor-matching/find", { role: role, project: project });
-      setProject({
-        ...project,
-        recommendedInventors: res.data.inventors
-      });
+  const addInventorDialogCallback = async(email) => {
+    addInventorToProject(email);
+  }
 
-    } catch (e) {
-      console.log("Project Search failed! ", e);
-    }
-  };
+  const inventorMatchingAddDialogCallback = async(inventor) => {
+    addInventorToProject(inventor.email);
+  }
 
-  const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => {
+  const addInventorToProject = async (email) => {
+    const findUserRes = await axios.post("/api/users/find", { email: email })
+    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: findUserRes.data.user.email, role: findUserRes.data.user.role })
+
     setProject({
       ...project,
-      recommendedInventors: []
+      inventors: [
+        ...project.inventors,
+        {
+          name: findUserRes.data.user.firstname + " " + findUserRes.data.user.lastname,
+          role: addInventorRes.data.inventor.role,
+          email: email,
+          joinDate: addInventorRes.data.inventor.joinDate, 
+        }
+      ]
     });
-
-    setOpen(true)
-  };
-
-  const addInventorToProject = async (inventor) => {
-    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: inventor.email, role: inventor.role })
-
-    const email = addInventorRes.data.inventor.email;
-    const findUserRes = await axios.post("/api/users/find", { email: email});
-
-    project.inventors.push({
-      name: findUserRes.data.user.firstname + " " + findUserRes.data.user.lastname,
-      role: addInventorRes.data.inventor.role,
-      email: email,
-      joinDate: addInventorRes.data.inventor.joinDate,
-    })
-
-    handleClose();
   };
 
   const removeInventor = async (event) => {
@@ -173,9 +159,22 @@ export default function Page({ params }) {
                 <Typography variant="h5" className="flex-none">Inventors</Typography>
                 <div className="flex-1" />
                 {isOwner() ? (
-                  <IconButton color="inherit" onClick={handleOpen}>
-                    <AddIcon color="success" />
-                  </IconButton>
+                  <>
+                    <InventorMatchingAddDialog addInventorCallback={inventorMatchingAddDialogCallback} project={project}>
+                      {(handleOpen) => (
+                        <IconButton color="inherit" onClick={handleOpen}>
+                          <AutoFixHighIcon />
+                        </IconButton>
+                      )}                      
+                    </InventorMatchingAddDialog>            
+                    <AddInventorDialog addInventorCallback={addInventorDialogCallback}>
+                      {(handleOpen) => (
+                        <IconButton color="inherit" onClick={handleOpen}>
+                          <AddIcon />
+                        </IconButton>
+                      )}                      
+                    </AddInventorDialog>  
+                  </>
                 ) : null}
               </div>
               {project.inventors.map((inventor) => (
@@ -206,23 +205,6 @@ export default function Page({ params }) {
           </div>
         </div>
       </main>
-      <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={"sm"}>
-          <DialogTitle>Add Inventor</DialogTitle>
-          <Box className="px-4">
-            <Select label="Role" onChange={handleInventorMatchingRoleSelected} items={roles} />
-            <List>
-              {project.recommendedInventors.map((inventor) => (
-                <ListItem disableGutters key={inventor.email}>
-                  <ListItemButton onClick={() => addInventorToProject(inventor)}>
-                    <IconText text={inventor.name}>
-                      {getRoleIcon(inventor.role)}
-                    </IconText>
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        </Dialog>
     </div>
   );
 }
