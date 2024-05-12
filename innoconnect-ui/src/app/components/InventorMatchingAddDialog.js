@@ -10,7 +10,7 @@ import { getRoleIcon } from "../lib/role";
 import axios from "axios";
 import IconText from "./IconText";
 
-function InventorMatchingAddDialog(props) {
+function InventorMatchingAddDialog({ addInventorCallback, project, children }) {
     const [recommendedInventors, setRecommendedInventors] = useState([]);
     const [open, setOpen] = useState(false);
 
@@ -21,13 +21,13 @@ function InventorMatchingAddDialog(props) {
     };
 
     const addInventor = async (inventor) => {
-        props.addInventorCallback(inventor)
+        addInventorCallback(inventor)
         handleClose();
     };
     
     const handleInventorMatchingRoleSelected = async (role) => {
         try {
-            const res = await axios.post("/api/inventor-matching/find", { role: role, project: props.project });
+            const res = await axios.post("/api/inventor-matching/find", { role: role, project: project });
             setRecommendedInventors(res.data.inventors);
         } catch (e) {
             console.log("Project Search failed! ", e);
@@ -36,7 +36,7 @@ function InventorMatchingAddDialog(props) {
 
     return (
       <>
-        {props.children(handleOpen)}
+        {children(handleOpen)}
         {open && (
           <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={"sm"}>
             <DialogTitle>Add Inventor</DialogTitle>
