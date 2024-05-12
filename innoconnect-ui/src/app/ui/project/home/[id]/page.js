@@ -2,29 +2,30 @@
  * @author Nathan Wise
  */
 "use client";
-import Navbar from "@/app/components/Navbar";
+import { AddInventorDialog } from "@/app/components/AddInventorDialog";
 import CentredCardContent from "@/app/components/CentredCardContent";
 import IconText from "@/app/components/IconText";
+import { InventorMatchingAddDialog } from "@/app/components/InventorMatchingAddDialog";
+import Navbar from "@/app/components/Navbar";
+import { ProjectSettingsDialog } from "@/app/components/ProjectSettingsDialog";
 import { getRoleIcon } from "@/app/lib/role";
+import { AccessTime } from "@mui/icons-material";
+import AddIcon from '@mui/icons-material/Add';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import DataObjectIcon from '@mui/icons-material/DataObject';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LanguageIcon from '@mui/icons-material/Language';
+import LinkIcon from '@mui/icons-material/Link';
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import SettingsIcon from '@mui/icons-material/Settings';
+import StarIcon from '@mui/icons-material/Star';
 import { Card, Divider, Tooltip, Typography, capitalize } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import LinkIcon from '@mui/icons-material/Link';
-import LanguageIcon from '@mui/icons-material/Language';
-import { AccessTime } from "@mui/icons-material";
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import DataObjectIcon from '@mui/icons-material/DataObject';
-import StarIcon from '@mui/icons-material/Star';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { InventorMatchingAddDialog } from "@/app/components/InventorMatchingAddDialog";
-import { AddInventorDialog } from "@/app/components/AddInventorDialog";
+import { useEffect, useState } from "react";
 
 export default function Page({ params }) {
-
   const { data: session } = useSession();
 
   const [project, setProject] = useState({
@@ -39,6 +40,21 @@ export default function Page({ params }) {
     inventors: [],
     isOwner: false,
   });
+
+  const projectSettingsDialogCallback = async(newProject) => {
+    const res = await axios.post("/api/projects/update", newProject)
+
+    setProject({
+      ...project,
+      title: res.data.project.title,
+      description: res.data.project.description,
+      mainCommunicationLanguage: res.data.project.mainCommunicationLanguage,
+      mainTimezone: res.data.project.mainTimezone,
+      mainProgrammingLanguage: res.data.project.mainProgrammingLanguage,
+      mainTechnology: res.data.project.mainTechnology,
+      projectUrl: res.data.project.projectUrl,
+    });
+  }
 
   const addInventorDialogCallback = async(email) => {
     addInventorToProject(email);
@@ -123,7 +139,21 @@ export default function Page({ params }) {
     <div>
       <Navbar />
       <main>
-        <Typography variant="h4" className="mb-4 px-9 py-12">{project.title}</Typography>
+        <div className="flex mb-4 px-9 py-12">
+          <Typography variant="h4">{project.title}</Typography>
+          <div className="flex-1" />
+          {isOwner() ? (
+            <>
+              <ProjectSettingsDialog submitCallback={projectSettingsDialogCallback} project={project}>
+                {(handleOpen) => (
+                  <IconButton color="inherit" onClick={handleOpen}>
+                    <SettingsIcon />
+                  </IconButton>
+                )}                      
+              </ProjectSettingsDialog>            
+            </>
+          ) : null}
+        </div>
         <div className="flex pb-9">
           <div className="flex-none w-[28%] px-9 text-wrap break-pretty">
             <div>
