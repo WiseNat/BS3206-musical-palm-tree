@@ -6,8 +6,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { FormControl } from "@mui/material";
 
-const FormSelect = ({ label, required, onChange, items }) => {
-  const [item, setItem] = useState("");
+const FormSelect = ({ label, required, onChange, items, defaultValue }) => {
+  const [item, setItem] = useState(defaultValue ? defaultValue : "");
   const handleChange = (event) => {
     setItem(event.target.value);
     onChange(event.target.value);
