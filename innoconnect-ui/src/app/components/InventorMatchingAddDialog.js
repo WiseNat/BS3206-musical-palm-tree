@@ -2,7 +2,7 @@
  * @author Nathan Wise
  */
 "use client";
-import { Dialog, DialogTitle, List, ListItem, ListItemButton, Box } from "@mui/material";
+import { Dialog, DialogTitle, List, ListItem, ListItemButton, DialogContent } from "@mui/material";
 import Select from "@/app/components/FormSelect";
 import { roles } from "../lib/selection";
 import { useState } from "react";
@@ -30,7 +30,7 @@ function InventorMatchingAddDialog({ addInventorCallback, project, children }) {
             const res = await axios.post("/api/inventor-matching/find", { role: role, project: project });
             setRecommendedInventors(res.data.inventors);
         } catch (e) {
-            console.log("Project Search failed! ", e);
+            console.log("Inventor matching failed! ", e);
         }
     }
 
@@ -39,8 +39,8 @@ function InventorMatchingAddDialog({ addInventorCallback, project, children }) {
         {children(handleOpen)}
         {open && (
           <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={"sm"}>
-            <DialogTitle>Add Inventor</DialogTitle>
-            <Box className="px-4">
+            <DialogTitle>Inventor Matching - Add Inventor</DialogTitle>
+            <DialogContent className="px-4" dividers>
               <Select label="Role" onChange={handleInventorMatchingRoleSelected} items={roles} />
               <List>
                 {recommendedInventors.map((inventor) => (
@@ -53,7 +53,7 @@ function InventorMatchingAddDialog({ addInventorCallback, project, children }) {
                   </ListItem>
                 ))}
               </List>
-            </Box>
+            </DialogContent>
           </Dialog>
         )}
       </>

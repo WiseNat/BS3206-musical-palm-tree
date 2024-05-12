@@ -21,6 +21,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { InventorMatchingAddDialog } from "@/app/components/InventorMatchingAddDialog";
+import { AddInventorDialog } from "@/app/components/AddInventorDialog";
 
 export default function Page({ params }) {
 
@@ -37,14 +38,19 @@ export default function Page({ params }) {
     projectUrl: "",
     inventors: [],
     isOwner: false,
-    recommendedInventors: [],
   });
 
-  const addInventorToProject = async (inventor) => {
-    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: inventor.email, role: inventor.role })
+  const addInventorDialogCallback = async(email) => {
+    addInventorToProject(email);
+  }
 
-    const email = addInventorRes.data.inventor.email;
-    const findUserRes = await axios.post("/api/users/find", { email: email});
+  const inventorMatchingAddDialogCallback = async(inventor) => {
+    addInventorToProject(inventor.email);
+  }
+
+  const addInventorToProject = async (email) => {
+    const findUserRes = await axios.post("/api/users/find", { email: email })
+    const addInventorRes = await axios.post("/api/projects/addInventor", { _id: project._id, email: findUserRes.data.user.email, role: findUserRes.data.user.role })
 
     setProject({
       ...project,
@@ -154,17 +160,20 @@ export default function Page({ params }) {
                 <div className="flex-1" />
                 {isOwner() ? (
                   <>
-                    <InventorMatchingAddDialog addInventorCallback={addInventorToProject} project={project}>
+                    <InventorMatchingAddDialog addInventorCallback={inventorMatchingAddDialogCallback} project={project}>
                       {(handleOpen) => (
                         <IconButton color="inherit" onClick={handleOpen}>
                           <AutoFixHighIcon />
                         </IconButton>
                       )}                      
                     </InventorMatchingAddDialog>            
-                    {/* TODO: Change onClick */}
-                    <IconButton color="inherit">
-                      <AddIcon />
-                    </IconButton>
+                    <AddInventorDialog addInventorCallback={addInventorDialogCallback}>
+                      {(handleOpen) => (
+                        <IconButton color="inherit" onClick={handleOpen}>
+                          <AddIcon />
+                        </IconButton>
+                      )}                      
+                    </AddInventorDialog>  
                   </>
                 ) : null}
               </div>
