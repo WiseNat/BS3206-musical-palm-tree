@@ -26,7 +26,6 @@ function ProjectSettingsDialog({ submitCallback, children, project }) {
     const handleOpen = () => setOpen(true);
 
     const updateProject = async () => {
-        // TODO: Fix this call
         submitCallback(newProject)
         handleClose();
     };
