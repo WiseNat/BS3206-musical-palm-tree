@@ -1,9 +1,12 @@
+/**
+ * @author Nathan Wise
+ */
 import { CardContent, styled } from "@mui/material";
 
-  const CentredCardContent = styled(CardContent)(`
-  padding: 16px;
-  &:last-child {
-    padding-bottom: 16px;
-  }`);
+const CentredCardContent = styled(CardContent)(`
+padding: 16px;
+&:last-child {
+  padding-bottom: 16px;
+}`);
 
-  export default CentredCardContent;
+export default CentredCardContent;
