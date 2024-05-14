@@ -1,3 +1,6 @@
+/**
+ * @author Nathan Wise
+ */
 import CodeIcon from '@mui/icons-material/Code';
 import StarIcon from '@mui/icons-material/Star';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';

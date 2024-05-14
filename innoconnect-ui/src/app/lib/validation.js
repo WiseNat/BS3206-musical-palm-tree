@@ -1,4 +1,6 @@
-// Validation functions
+/**
+ * @author Nathan Wise
+ */
 
 function isValidUrl(string) {
     try {
