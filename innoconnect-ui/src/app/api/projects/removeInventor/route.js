@@ -13,10 +13,10 @@ export async function POST(req) {
     const resBody = await req.json();
     const { _id, email } = resBody;
 
-    console.log(`attempting to remove '${email}' from '${_id}'`)
+    console.log(`attempting to remove '${email}' from '${_id}'`);
 
     const remove = {
-      $pull: { inventors: { email: email } }
+      $pull: { inventors: { email: email } },
     };
 
     await Project.findByIdAndUpdate(_id, remove, { new: true });

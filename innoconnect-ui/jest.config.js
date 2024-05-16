@@ -1,17 +1,14 @@
-const nextJest = require('next/jest')
- 
+const nextJest = require("next/jest");
+
 const createJestConfig = nextJest({
-  dir: './',
-})
+  dir: "./",
+});
 
 const config = {
   clearMocks: true,
   coverageProvider: "v8",
   testEnvironment: "jsdom",
-  testPathIgnorePatterns: [
-    "/node_modules",
-    "lib\.js"
-  ]
+  testPathIgnorePatterns: ["/node_modules", "lib.js"],
 };
 
-module.exports = createJestConfig(config)
+module.exports = createJestConfig(config);

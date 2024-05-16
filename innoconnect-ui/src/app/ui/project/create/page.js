@@ -4,15 +4,19 @@
 "use client";
 import Navbar from "@/app/components/Navbar";
 import Form from "@/app/components/Form";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import Select from "@/app/components/FormSelect";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
-import { communicationLanguages, programmingLanguages, technologies, timezones } from "@/app/lib/selection";
+import {
+  communicationLanguages,
+  programmingLanguages,
+  technologies,
+  timezones,
+} from "@/app/lib/selection";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
 
 export default function Create() {
   const { data: session } = useSession();
@@ -31,8 +35,8 @@ export default function Create() {
         email: session?.user.email,
         role: "Founder",
         joinDate: Date.now(),
-      }
-    ]
+      },
+    ],
   });
 
   const createProject = async (event) => {
@@ -49,15 +53,63 @@ export default function Create() {
     <div>
       <Navbar />
       <main>
-        <Form title="Create a Project" submitAction={createProject} className="mx-16 my-4">
-          <TextField label="Project Title" onChange={(e) => setProject({ ...project, title: e.target.value })} required />
-          <TextField label="Project Description" onChange={(e) => setProject({ ...project, description: e.target.value })} minRows={3} multiline required/>
-          <Select label="Main Communication Language" items={communicationLanguages} onChange={(e) => setProject({ ...project, mainCommunicationLanguage: e })} required />
-          <Select label="Main Timezone" items={timezones} onChange={(e) => setProject({ ...project, mainTimezone: e })} required />
-          <Select label="Main Programming Language" items={programmingLanguages} onChange={(e) => setProject({ ...project, mainProgrammingLanguage: e })} required />
-          <Select label="Main Technology" items={technologies} onChange={(e) => setProject({ ...project, mainTechnology: e })} required />
-          <TextField label="Project URL" onChange={(e) => setProject({ ...project, projectUrl: e.target.value })} required />
-          <Button variant="contained" type="Submit">Submit</Button>
+        <Form
+          title="Create a Project"
+          submitAction={createProject}
+          className="mx-16 my-4"
+        >
+          <TextField
+            label="Project Title"
+            onChange={(e) => setProject({ ...project, title: e.target.value })}
+            required
+          />
+          <TextField
+            label="Project Description"
+            onChange={(e) =>
+              setProject({ ...project, description: e.target.value })
+            }
+            minRows={3}
+            multiline
+            required
+          />
+          <Select
+            label="Main Communication Language"
+            items={communicationLanguages}
+            onChange={(e) =>
+              setProject({ ...project, mainCommunicationLanguage: e })
+            }
+            required
+          />
+          <Select
+            label="Main Timezone"
+            items={timezones}
+            onChange={(e) => setProject({ ...project, mainTimezone: e })}
+            required
+          />
+          <Select
+            label="Main Programming Language"
+            items={programmingLanguages}
+            onChange={(e) =>
+              setProject({ ...project, mainProgrammingLanguage: e })
+            }
+            required
+          />
+          <Select
+            label="Main Technology"
+            items={technologies}
+            onChange={(e) => setProject({ ...project, mainTechnology: e })}
+            required
+          />
+          <TextField
+            label="Project URL"
+            onChange={(e) =>
+              setProject({ ...project, projectUrl: e.target.value })
+            }
+            required
+          />
+          <Button variant="contained" type="Submit">
+            Submit
+          </Button>
         </Form>
       </main>
     </div>

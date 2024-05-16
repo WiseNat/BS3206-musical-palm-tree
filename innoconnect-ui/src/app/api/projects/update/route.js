@@ -26,17 +26,20 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid Project URL!", status: 400 });
     }
 
-    const project = await Project.findByIdAndUpdate(_id, { 
-      title: title, 
-      description: description, 
-      mainCommunicationLanguage: mainCommunicationLanguage,
-      mainTimezone: mainTimezone,
-      mainProgrammingLanguage: mainProgrammingLanguage,
-      mainTechnology: mainTechnology,
-      projectUrl: projectUrl,
-    }, {
-      new: true,
-    }
+    const project = await Project.findByIdAndUpdate(
+      _id,
+      {
+        title: title,
+        description: description,
+        mainCommunicationLanguage: mainCommunicationLanguage,
+        mainTimezone: mainTimezone,
+        mainProgrammingLanguage: mainProgrammingLanguage,
+        mainTechnology: mainTechnology,
+        projectUrl: projectUrl,
+      },
+      {
+        new: true,
+      },
     );
 
     return NextResponse.json({
