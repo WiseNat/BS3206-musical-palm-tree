@@ -1,3 +1,6 @@
+/**
+ * @author Nathan Wise
+ */
 import { Link, Stack, Typography } from "@mui/material";
 
 const IconText = ({text, children, isTextUrl = false}) => {
