@@ -16,7 +16,10 @@ export default async function Home() {
           Hello {session?.user.firstname}
         </Typography>
         <div className="flex flex-col space-y-4">
-          <ButtonLink route="/ui/project/search" text="Search for existing Projects" />
+          <ButtonLink
+            route="/ui/project/search"
+            text="Search for existing Projects"
+          />
           <ButtonLink route="/ui/project/create" text="Create Project" />
         </div>
       </div>

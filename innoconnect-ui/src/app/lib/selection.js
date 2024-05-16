@@ -1,9 +1,5 @@
 // TODO: Pull these from DB on startup
-const roles = [
-  "Project Manager",
-  "Developer",
-  "Business Analyst"
-];
+const roles = ["Project Manager", "Developer", "Business Analyst"];
 
 // TODO: Add more
 const communicationLanguages = [
@@ -72,7 +68,7 @@ const programmingLanguages = [
   "Groovy",
   "Go",
   "Haskell",
-  "Basic"
+  "Basic",
 ];
 
 // TODO: Add more technology options (use this: https://survey.stackoverflow.co/2023/#technology-most-popular-technologies)
@@ -102,7 +98,13 @@ const technologies = [
   "Docker",
   "npm",
   "Kubernetes",
-  "Bun"
+  "Bun",
 ];
 
-export { roles, communicationLanguages, timezones, programmingLanguages, technologies };
+export {
+  roles,
+  communicationLanguages,
+  timezones,
+  programmingLanguages,
+  technologies,
+};

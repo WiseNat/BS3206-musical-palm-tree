@@ -17,19 +17,28 @@ export async function POST(req) {
       excludedEmails.push(inventor.email);
     }
 
-    const inventors = await User.find({ role: role, language: project.mainCommunicationLanguage, timezone: project.mainTimezone, matching: true, email: { $nin: excludedEmails } });
+    const inventors = await User.find({
+      role: role,
+      language: project.mainCommunicationLanguage,
+      timezone: project.mainTimezone,
+      matching: true,
+      email: { $nin: excludedEmails },
+    });
 
-    const recommendedInventors = []
+    const recommendedInventors = [];
     for (var inventor of inventors) {
       recommendedInventors.push({
         email: inventor.email,
         role: inventor.role,
         name: inventor.firstname + " " + inventor.lastname,
-      })
+      });
     }
 
     if (recommendedInventors) {
-      return NextResponse.json({ inventors: recommendedInventors, status: 200 });
+      return NextResponse.json({
+        inventors: recommendedInventors,
+        status: 200,
+      });
     }
   } catch (e) {
     console.log(e);

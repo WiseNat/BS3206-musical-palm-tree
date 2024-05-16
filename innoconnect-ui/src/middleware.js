@@ -19,7 +19,8 @@ export default async function middleware(req) {
 
 export const config = {
   matcher: [
-    "/api/users/protected/:path*", 
+    "/api/users/protected/:path*",
     "/api/projects/:path*",
-    "/ui/:path*"],
+    "/ui/:path*",
+  ],
 };

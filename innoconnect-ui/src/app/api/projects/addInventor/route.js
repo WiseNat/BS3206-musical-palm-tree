@@ -14,28 +14,37 @@ export async function POST(req) {
 
     const preUpdateProject = await Project.findById(_id);
     var inventorExists = false;
-    for(var i in preUpdateProject.inventors){
-        if(preUpdateProject.inventors[i].email == email){
-          inventorExists = true;
-          break;
-        }
+    for (var i in preUpdateProject.inventors) {
+      if (preUpdateProject.inventors[i].email == email) {
+        inventorExists = true;
+        break;
+      }
     }
 
     if (inventorExists) {
-      return NextResponse.json({ error: "Inventor is already on the project and cannot be added" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Inventor is already on the project and cannot be added" },
+        { status: 500 },
+      );
     }
 
     const update = {
-      $push: { inventors: { email: email, role: role, joinDate: Date.now() } }
+      $push: { inventors: { email: email, role: role, joinDate: Date.now() } },
     };
 
-    const postUpdateProject = await Project.findByIdAndUpdate(_id, update, { new: true })
+    const postUpdateProject = await Project.findByIdAndUpdate(_id, update, {
+      new: true,
+    });
 
     if (!postUpdateProject) {
-      return NextResponse.json({ error: "No project found and update" }, { status: 500 });
+      return NextResponse.json(
+        { error: "No project found and update" },
+        { status: 500 },
+      );
     }
 
-    const inventor = postUpdateProject.inventors[postUpdateProject.inventors.length - 1];
+    const inventor =
+      postUpdateProject.inventors[postUpdateProject.inventors.length - 1];
 
     return NextResponse.json({
       inventor: inventor,

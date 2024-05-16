@@ -45,10 +45,10 @@ const projectSchema = new mongoose.Schema({
       },
       joinDate: {
         type: Date,
-        required: true
-      }
-    }
-  ]
+        required: true,
+      },
+    },
+  ],
 });
 
 projectSchema.plugin(mongoose_fuzzy_searching, {
