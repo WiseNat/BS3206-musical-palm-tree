@@ -7,8 +7,7 @@ import Typography from "@mui/material/Typography";
 import { useSession } from "next-auth/react";
 import Form from "@/app/components/Form";
 import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import Modal from "@/app/components/ModalTemplate";
 import Select from "@/app/components/FormSelect";
 import { roles, timezones } from "@/app/lib/selection";
 import { TextField } from "@mui/material";
@@ -69,26 +68,13 @@ export default function Profile() {
     }
   };
 
-  // @TODO Update this to use tailwind
-  const modalcss = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
   return (
     <main>
       <Navbar />
       <Typography variant="h4" className="mb-4">
         Hi {session?.user.firstname}, lets manage your account!
       </Typography>
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+      <div>
         <Form title="Current Details" className="mx-16 my-4">
           <TextField id="email" label="Email" value={user.email} disabled />
           <TextField
@@ -113,36 +99,30 @@ export default function Profile() {
           </Button>
         </Form>
         <Modal open={open} onClose={handleClose}>
-          <Box sx={modalcss}>
-            <Form title="Edit Profile" submitAction={updateUser}>
-              <Select label="Role" onChange={setRole} items={roles} />
-              <Select
-                label="Timezone"
-                onChange={setTimezone}
-                items={timezones}
-              />
-              <LabelSwitch
-                label="Inventor Matching"
-                action={(e) =>
-                  setUpdatedUser({ ...user, matching: e.target.checked })
-                }
-              />
-              <TextField
-                id="password"
-                label="Update Password"
-                onChange={(e) =>
-                  setUpdatedUser({ ...user, password: e.target.value })
-                }
-                type="password"
-              />
-              <Button variant="contained" type="submit">
-                Submit
-              </Button>
-              <Button variant="contained" onClick={handleClose}>
-                Close
-              </Button>
-            </Form>
-          </Box>
+          <Form title="Edit Profile" submitAction={updateUser}>
+            <Select label="Role" onChange={setRole} items={roles} />
+            <Select label="Timezone" onChange={setTimezone} items={timezones} />
+            <LabelSwitch
+              label="Inventor Matching"
+              action={(e) =>
+                setUpdatedUser({ ...user, matching: e.target.checked })
+              }
+            />
+            <TextField
+              id="password"
+              label="Update Password"
+              onChange={(e) =>
+                setUpdatedUser({ ...user, password: e.target.value })
+              }
+              type="password"
+            />
+            <Button variant="contained" type="submit">
+              Submit
+            </Button>
+            <Button variant="contained" onClick={handleClose}>
+              Close
+            </Button>
+          </Form>
         </Modal>
       </div>
     </main>
