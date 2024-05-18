@@ -168,18 +168,18 @@ export default function Page({ params }) {
           <Typography variant="h4">{project.title}</Typography>
           <div className="flex-1" />
           {isOwner() ? (
-            <>
-              <ProjectSettingsDialog
+            <ProjectSettingsDialog
                 submitCallback={projectSettingsDialogCallback}
                 project={project}
               >
                 {(handleOpen) => (
                   <IconButton color="inherit" onClick={handleOpen}>
-                    <SettingsIcon />
+                    <Tooltip title="Project Settings">
+                      <SettingsIcon />
+                    </Tooltip>
                   </IconButton>
                 )}
               </ProjectSettingsDialog>
-            </>
           ) : null}
         </div>
         <div className="flex pb-9">
@@ -189,19 +189,29 @@ export default function Page({ params }) {
               <Divider orientation="horizontal"></Divider>
             </div>
             <IconText text={project.projectUrl} isTextUrl>
-              <LinkIcon />
+              <Tooltip title="Project URL">
+                <LinkIcon />
+              </Tooltip>
             </IconText>
             <IconText text={project.mainProgrammingLanguage}>
-              <DataObjectIcon />
+              <Tooltip title="Programming Language">
+                <DataObjectIcon />
+              </Tooltip>
             </IconText>
             <IconText text={project.mainTechnology}>
-              <PrecisionManufacturingIcon />
+              <Tooltip title="Technology">
+                <PrecisionManufacturingIcon />
+              </Tooltip>
             </IconText>
             <IconText text={project.mainCommunicationLanguage}>
-              <LanguageIcon />
+              <Tooltip title="Communication Language">
+                <LanguageIcon />
+              </Tooltip>
             </IconText>
             <IconText text={project.mainTimezone}>
-              <AccessTime />
+              <Tooltip title="Timezone">
+                <AccessTime />
+              </Tooltip>
             </IconText>
             {isOwner() ? (
               <IconText text="You own this project">
@@ -224,7 +234,9 @@ export default function Page({ params }) {
                     >
                       {(handleOpen) => (
                         <IconButton color="inherit" onClick={handleOpen}>
-                          <AutoFixHighIcon />
+                          <Tooltip title="Inventor Matching">
+                            <AutoFixHighIcon />
+                          </Tooltip>
                         </IconButton>
                       )}
                     </InventorMatchingAddDialog>
@@ -233,7 +245,9 @@ export default function Page({ params }) {
                     >
                       {(handleOpen) => (
                         <IconButton color="inherit" onClick={handleOpen}>
-                          <AddIcon />
+                          <Tooltip title="Add Inventor">
+                            <AddIcon />
+                          </Tooltip>
                         </IconButton>
                       )}
                     </AddInventorDialog>
@@ -261,7 +275,9 @@ export default function Page({ params }) {
                             onClick={removeInventor}
                             className="flex-none"
                           >
-                            <DeleteIcon color="error" />
+                            <Tooltip title="Remove Inventor">
+                              <DeleteIcon color="error" />
+                            </Tooltip>
                           </IconButton>
                         </div>
                       ) : null}

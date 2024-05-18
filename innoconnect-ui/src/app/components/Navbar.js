@@ -8,10 +8,10 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Tooltip } from "@mui/material";
 
 const Navbar = ({}) => {
   const router = useRouter();
@@ -63,7 +63,9 @@ const Navbar = ({}) => {
           </Typography>
           <IconButton color="inherit" onClick={handleClick}>
             {" "}
-            <AccountCircleOutlinedIcon />
+            <Tooltip title="Account">
+              <AccountCircleOutlinedIcon />
+            </Tooltip>
           </IconButton>
           <Menu
             id="account-menu"

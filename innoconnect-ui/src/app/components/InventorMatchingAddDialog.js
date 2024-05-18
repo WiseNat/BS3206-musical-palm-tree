@@ -9,6 +9,8 @@ import {
   ListItem,
   ListItemButton,
   DialogContent,
+  Tooltip,
+  capitalize,
 } from "@mui/material";
 import Select from "@/app/components/FormSelect";
 import { roles } from "../lib/selection";
@@ -66,7 +68,9 @@ function InventorMatchingAddDialog({ addInventorCallback, project, children }) {
                 <ListItem disableGutters key={inventor.email}>
                   <ListItemButton onClick={() => addInventor(inventor)}>
                     <IconText text={inventor.name}>
-                      {getRoleIcon(inventor.role)}
+                      <Tooltip title={capitalize(inventor.role)}>
+                        {getRoleIcon(inventor.role)}
+                      </Tooltip>
                     </IconText>
                   </ListItemButton>
                 </ListItem>
