@@ -39,7 +39,7 @@ describe("Form", () => {
 
     const button = screen.getByRole("button");
 
-    fireEvent.click(button);
+    fireEvent.submit(button);
 
     expect(mockedFunction).toHaveBeenCalled();
   });
