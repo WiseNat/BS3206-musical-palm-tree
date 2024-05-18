@@ -1,3 +1,6 @@
+/**
+ * @author Tom Shortridge
+ */
 "use client";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
@@ -22,6 +25,7 @@ const FormSelect = ({ label, required, onChange, items, defaultValue }) => {
           label={label}
           onChange={handleChange}
           required={required}
+          data-testid="selection-box"
         >
           {items.map(function (item, i) {
             return (
