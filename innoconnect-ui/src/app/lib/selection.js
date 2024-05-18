@@ -1,7 +1,15 @@
-// TODO: Pull these from DB on startup
+/**
+ * @author Tom Shortridge
+ */
+const filters = [
+  "Communication Languages",
+  "Timezones",
+  "Programming Languages",
+  "Technologies",
+];
+
 const roles = ["Project Manager", "Developer", "Business Analyst"];
 
-// TODO: Add more
 const communicationLanguages = [
   "English",
   "Spanish",
@@ -52,7 +60,6 @@ const timezones = [
   "",
 ];
 
-// TODO: Add more
 const programmingLanguages = [
   "Python",
   "Java",
@@ -71,7 +78,6 @@ const programmingLanguages = [
   "Basic",
 ];
 
-// TODO: Add more technology options (use this: https://survey.stackoverflow.co/2023/#technology-most-popular-technologies)
 const technologies = [
   "SvelteKit",
   "NodeJS",
@@ -102,6 +108,7 @@ const technologies = [
 ];
 
 export {
+  filters,
   roles,
   communicationLanguages,
   timezones,
