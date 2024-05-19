@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * Account management page
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
@@ -16,7 +18,9 @@ import axios from "axios";
 import LabelSwitch from "@/app/components/LabelSwitch";
 
 export default function Profile() {
+  // Used to make the session accessible.
   const { data: session } = useSession();
+
   const [user, setUser] = useState({
     email: "",
     role: "",
@@ -49,6 +53,7 @@ export default function Profile() {
     setUpdatedUser({ ...user, language: value });
   };
 
+  // Used to pull the user's information when the page is loaded.
   useEffect(() => {
     async function getUser() {
       if (session) {
@@ -67,6 +72,7 @@ export default function Profile() {
     getUser();
   }, []);
 
+  // Updates the user by sending a post request to the API.
   const updateUser = async () => {
     try {
       const res = await axios.post("/api/users/protected/update", updatedUser);

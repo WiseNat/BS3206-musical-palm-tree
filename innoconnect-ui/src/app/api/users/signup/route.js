@@ -1,10 +1,13 @@
 /**
  * @author Tom Shortridge
+ *
+ * This route creates a user on the system.
  */
 import User from "@/app/models/user";
 import { connect } from "@/app/config/databaseConnection";
 import { NextResponse } from "next/server";
 
+// Connect to the database
 connect();
 
 export async function POST(req) {
@@ -22,12 +25,15 @@ export async function POST(req) {
       matching,
     } = resBody;
 
+    // Attempt to get existing user
     const user = await User.findOne({ email });
 
+    // Reject sign up attempt if user already exists
     if (user) {
       return NextResponse({ error: "User already exists!", status: 400 });
     }
 
+    // Create new user
     const receivedUser = new User({
       firstname,
       lastname,
@@ -40,6 +46,7 @@ export async function POST(req) {
       matching,
     });
 
+    // Commit user to the database
     const createdUser = await receivedUser.save();
 
     return NextResponse.json({

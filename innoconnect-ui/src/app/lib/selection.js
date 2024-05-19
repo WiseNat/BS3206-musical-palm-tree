@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * Stores the data used by the selection boxes and filter information
  */
 const filters = [
   "Communication Languages",

@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * The sign up page for the system
  */
 "use client";
 import Form from "@/app/components/Form";
@@ -37,6 +39,7 @@ export default function SignUp() {
     setUser({ ...user, timezone: value });
   };
 
+  // Posts the user's data to the API
   const createSignup = async () => {
     try {
       const res = await axios.post("/api/users/signup", user);
