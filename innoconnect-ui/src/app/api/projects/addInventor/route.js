@@ -4,7 +4,7 @@
 import Project from "@/app/models/project";
 import { connect } from "@/app/config/databaseConnection";
 import { NextResponse } from "next/server";
-import * as EmailValidator from 'email-validator';
+import * as EmailValidator from "email-validator";
 
 connect();
 
@@ -13,7 +13,7 @@ export async function POST(req) {
     const resBody = await req.json();
     const { _id, email, role } = resBody;
 
-    if(!EmailValidator.validate(email)) {
+    if (!EmailValidator.validate(email)) {
       return NextResponse.json(
         { error: `Invalid Email address '${email}' was provided` },
         { status: 500 },
