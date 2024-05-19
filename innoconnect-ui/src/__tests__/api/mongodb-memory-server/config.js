@@ -1,8 +1,8 @@
 const config = {
-    Memory: true,
-    IP: '127.0.0.1',
-    Port: '27017',
-    Database: 'fake-mongodb'
-}
+  Memory: true,
+  IP: "127.0.0.1",
+  Port: "27017",
+  Database: "fake-mongodb",
+};
 
-export { config }
+export { config };

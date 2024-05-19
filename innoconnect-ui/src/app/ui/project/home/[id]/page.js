@@ -99,7 +99,7 @@ export default function Page({ params }) {
     });
     project.inventors.splice(
       project.inventors.findIndex((item) => item.email == email),
-      1
+      1,
     );
 
     setProject({

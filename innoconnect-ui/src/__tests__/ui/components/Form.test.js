@@ -34,7 +34,7 @@ describe("Form", () => {
         title={formTitle}
         submitAction={mockedFunction}
         children={<button type="submit">Submit</button>}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");

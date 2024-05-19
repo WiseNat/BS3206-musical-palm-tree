@@ -30,7 +30,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
         const passwordValidation = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password,
         );
 
         if (!passwordValidation) {
