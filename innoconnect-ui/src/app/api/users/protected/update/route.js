@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * This route updates a user by taking a user object, locating that user within the database, and updating the fields.
  */
 import User from "@/app/models/user";
 import { connect } from "@/app/config/databaseConnection";
@@ -13,11 +15,14 @@ export async function POST(req) {
     const resBody = await req.json();
     let { email, role, timezone, language, matching, password } = resBody;
 
+    // If password is provided, hash it.
     if (password) {
       password = await bcrypt.hash(password, 10);
     }
-
+    // The user identifier - email
     const filter = { email: email };
+
+    // The updated fields which the user has provided
     const updatedFields = {
       role: role,
       timezone: timezone,
@@ -26,6 +31,7 @@ export async function POST(req) {
       password: password,
     };
 
+    // Find the user and update based on the updatedFields.
     const user = await User.findOneAndUpdate(filter, updatedFields).exec();
 
     return NextResponse.json({

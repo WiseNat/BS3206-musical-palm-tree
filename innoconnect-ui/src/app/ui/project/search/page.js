@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * Project searching page.
  */
 "use client";
 import Navbar from "@/app/components/Navbar";
@@ -37,6 +39,7 @@ export default function ProjectSearch() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // Posts the search query to the API.
   const search = async (e) => {
     try {
       e.preventDefault();
@@ -51,10 +54,12 @@ export default function ProjectSearch() {
     setSearchQuery({ query: value });
   };
 
+  // Renders 'No Projects Found' message if no projects are found.
   const ShowProjectNotFound = ({ project }) => {
     if (project.length == 0) return <Typography>No Projects Found</Typography>;
   };
 
+  // Handles the selection of the filter, mapping it to the correct filter array.
   const handleFilterType = (filterType) => {
     let filterSelection;
     switch (filterType) {
@@ -74,6 +79,7 @@ export default function ProjectSearch() {
     setFilter({ filterFields: filterSelection, filterName: filterType });
   };
 
+  // Renders the filter based on the users' selection
   const ShowFilter = () => {
     if (filter.filterFields != "")
       return (

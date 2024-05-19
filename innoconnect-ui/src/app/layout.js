@@ -13,6 +13,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+  // Used to make the session accessible over the entire application
   const session = await auth();
   return (
     <html lang="en">

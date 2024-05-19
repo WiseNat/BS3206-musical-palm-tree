@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * The model for the user object. The model also hashes the users' password on a save action.
  */
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
@@ -39,6 +41,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// When the user is saved, the password is hashed before being committed to the database.
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();

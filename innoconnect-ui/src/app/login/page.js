@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * The login page for the system
  */
 "use client";
 import Form from "@/app/components/Form";
@@ -17,6 +19,7 @@ export default function Login() {
     password: "",
   });
 
+  // Starts the login process using the authentication solution
   const startLogin = async (event) => {
     try {
       event.preventDefault();

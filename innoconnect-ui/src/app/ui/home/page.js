@@ -1,5 +1,7 @@
 /**
  * @author Tom Shortridge
+ *
+ * The homepage
  */
 import { auth } from "@/app/auth";
 import Navbar from "@/app/components/Navbar";
