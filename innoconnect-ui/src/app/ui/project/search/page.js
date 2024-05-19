@@ -63,10 +63,13 @@ export default function ProjectSearch() {
         break;
       case "Timezones":
         filterSelection = timezones;
+        break;
       case "Programming Languages":
         filterSelection = programmingLanguages;
+        break;
       case "Technologies":
         filterSelection = technologies;
+        break;
     }
     setFilter({ filterFields: filterSelection, filterName: filterType });
   };
@@ -108,7 +111,7 @@ export default function ProjectSearch() {
             Search
           </Button>
         </Form>
-        <div className="flex justify-center items-center pt-10">
+        <div className="grid grid-cols-4 gap-4 items-center pt-10 px-10">
           {projects.map(function (project, i) {
             return <ProjectView project={project} key={i} />;
           })}
