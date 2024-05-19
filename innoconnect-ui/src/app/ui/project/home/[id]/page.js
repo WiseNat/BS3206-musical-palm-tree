@@ -65,7 +65,9 @@ export default function Page({ params }) {
   };
 
   const addInventorToProject = async (email) => {
-    const findUserRes = await axios.post("/api/users/find", { email: email });
+    const findUserRes = await axios.post("/api/users/protected/find", {
+      email: email,
+    });
     const addInventorRes = await axios.post("/api/projects/addInventor", {
       _id: project._id,
       email: findUserRes.data.user.email,
@@ -97,7 +99,7 @@ export default function Page({ params }) {
     });
     project.inventors.splice(
       project.inventors.findIndex((item) => item.email == email),
-      1,
+      1
     );
 
     setProject({
@@ -128,7 +130,7 @@ export default function Page({ params }) {
       };
 
       for (let i = 0; i < newProject.inventors.length; i++) {
-        const inventorRes = await axios.post("/api/users/find", {
+        const inventorRes = await axios.post("/api/users/protected/find", {
           email: newProject.inventors[i].email,
         });
         newProject.inventors[i] = {
@@ -169,17 +171,17 @@ export default function Page({ params }) {
           <div className="flex-1" />
           {isOwner() ? (
             <ProjectSettingsDialog
-                submitCallback={projectSettingsDialogCallback}
-                project={project}
-              >
-                {(handleOpen) => (
-                  <IconButton color="inherit" onClick={handleOpen}>
-                    <Tooltip title="Project Settings">
-                      <SettingsIcon />
-                    </Tooltip>
-                  </IconButton>
-                )}
-              </ProjectSettingsDialog>
+              submitCallback={projectSettingsDialogCallback}
+              project={project}
+            >
+              {(handleOpen) => (
+                <IconButton color="inherit" onClick={handleOpen}>
+                  <Tooltip title="Project Settings">
+                    <SettingsIcon />
+                  </Tooltip>
+                </IconButton>
+              )}
+            </ProjectSettingsDialog>
           ) : null}
         </div>
         <div className="flex pb-9">
