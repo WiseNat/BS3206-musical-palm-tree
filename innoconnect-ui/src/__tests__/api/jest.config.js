@@ -13,7 +13,10 @@ const config = {
     globalTeardown: "<rootDir>/mongodb-memory-server/globalTeardown.js",
     setupFilesAfterEnv: [
       "<rootDir>/mongodb-memory-server/setupFile.js"
-    ]
+    ],
+    moduleNameMapper: {
+      '^@/(.*)$': '<rootDir>/../../$1'
+    },
 };
 
 module.exports = createJestConfig(config);
