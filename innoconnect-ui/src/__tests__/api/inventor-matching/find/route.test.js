@@ -4,6 +4,15 @@
 import { POST } from "@/app/api/inventor-matching/find/route";
 import User from "@/app/models/user";
 
+function buildInventor(name, role, email) {
+    return {
+        name: name,
+        role: role,
+        email: email,
+        joinDate: Date.now()
+    }
+}
+
 function buildReq(role, timezone, communicationLanguge, inventors) {
     return {
         json: () => ({ 
@@ -18,20 +27,26 @@ function buildReq(role, timezone, communicationLanguge, inventors) {
 }
 
 async function createUser(prefix, role, timezone, language, matching) {
+    const firstname = `${prefix} first name`;
+    const lastname = `${prefix} last name`;
+    const email = `${prefix}@gmail.com`;
+
     await User.create({
-        firstname: `${prefix} first name`,
-        lastname: `${prefix} last name`,
-        email: `${prefix}@gmail.com`,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
         password: "test",
         role: role,
         language: language,
         timezone: timezone,
         matching: matching
     });
+
+    return buildInventor(firstname + " " + lastname, role, email);
 };
 
 describe("Inventor Matching API", () => {
-    describe("AUT001", () => {
+    describe("AUT001 - Retrieving a list of Inventors for a given project where their time zone & language match the projects equivalents, the role matches the given role, and all inventors have matching set to true", () => {
         it("TCA001 - Getting Inventor Recommendations with valid data", async () => {
             const role = "Developer";
             const timezone = "UTC±00:00";
@@ -42,9 +57,9 @@ describe("Inventor Matching API", () => {
             }
 
             const badPrefix = "Bad"
-            await createUser(`${badPrefix}#1`, "Project Manager", timezone, language, true)
-            await createUser(`${badPrefix}#2`, role, "UTC+02:00", language, true)
-            await createUser(`${badPrefix}#3`, role, timezone, "German", true)
+            for (let i = 0; i < 10; i++) {
+                await createUser(`${badPrefix}#${i}`, "Project Manager", timezone, language, true)
+            }
 
             const req = buildReq(role, timezone, language, [])
             const res = await POST(req)
@@ -104,6 +119,58 @@ describe("Inventor Matching API", () => {
         });
     });
 
+    describe("AUT002 - Inventor matching does not return Inventors that are currently on the project", () => {
+        it("TCA005 - Inventor matching with 1 inventor recommendation who is already on the project", async () => {
+            const role = "Developer";
+            const timezone = "UTC±00:00";
+            const language = "English";
+
+            for (let i = 0; i < 10; i++) {
+                await createUser(i, role, timezone, language, true)
+            }
+
+            const inventors = [];
+
+            const badPrefix = "Bad"
+            for (let i = 0; i < 1; i++) {
+                inventors.push(await createUser(`${badPrefix}#${i}`, role, timezone, language, true))
+            }
+
+            const req = buildReq(role, timezone, language, inventors)
+            const res = await POST(req)
+            const body = await res.json();
+
+            for (let inventor of body.inventors) {
+                expect(inventor.name.indexOf(badPrefix)).not.toBe(0);
+            }
+        });
+
+        it("TCA006 - Inventor matching with multiple inventor recommendations who are already on the project", async () => {
+            const role = "Developer";
+            const timezone = "UTC±00:00";
+            const language = "English";
+
+            for (let i = 0; i < 10; i++) {
+                await createUser(i, role, timezone, language, true)
+            }
+
+            const inventors = [];
+           
+            const badPrefix = "Bad"
+            for (let i = 0; i < 2; i++) {
+                inventors.push(await createUser(`${badPrefix}#${i}`, role, timezone, language, true))
+            }
+
+            const req = buildReq(role, timezone, language, inventors)
+            const res = await POST(req)
+            const body = await res.json();
+
+            for (let inventor of body.inventors) {
+                expect(inventor.name.indexOf(badPrefix)).not.toBe(0);
+            }
+        });
+    });
+    
     describe("AUT???", () => {
         it("TCA??? - DESCRIPTION", () => {
         });
