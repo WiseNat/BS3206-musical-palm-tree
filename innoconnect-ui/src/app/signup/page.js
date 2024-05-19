@@ -69,6 +69,7 @@ export default function SignUp() {
           <TextField
             id="email"
             label="Email"
+            type="email"
             onChange={(e) => setUser({ ...user, email: e.target.value })}
             required
           />

@@ -9,7 +9,7 @@ import Form from "@/app/components/Form";
 import Button from "@mui/material/Button";
 import Modal from "@/app/components/ModalTemplate";
 import Select from "@/app/components/FormSelect";
-import { roles, timezones } from "@/app/lib/selection";
+import { roles, timezones, communicationLanguages } from "@/app/lib/selection";
 import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -21,6 +21,7 @@ export default function Profile() {
     email: "",
     role: "",
     timezone: "",
+    language: "",
     matching: false,
   });
 
@@ -28,6 +29,7 @@ export default function Profile() {
     email: session?.user.email,
     role: "",
     timezone: "",
+    language: "",
     matching: false,
     password: "",
   });
@@ -43,6 +45,10 @@ export default function Profile() {
     setUpdatedUser({ ...user, timezone: value });
   };
 
+  const setComLanguage = (value) => {
+    setUpdatedUser({ ...user, language: value });
+  };
+
   useEffect(() => {
     async function getUser() {
       if (session) {
@@ -52,8 +58,10 @@ export default function Profile() {
           email: res.data.user.email,
           role: res.data.user.role,
           timezone: res.data.user.timezone,
+          language: res.data.user.language,
           matching: res.data.user.matching,
         });
+        console.log(res);
       }
     }
     getUser();
@@ -84,6 +92,12 @@ export default function Profile() {
             disabled
           />
           <TextField
+            id="language"
+            label="Current Communication Language"
+            value={user.language}
+            disabled
+          />
+          <TextField
             id="timezone"
             label="Current Timezone"
             value={user.timezone}
@@ -102,6 +116,11 @@ export default function Profile() {
           <Form title="Edit Profile" submitAction={updateUser}>
             <Select label="Role" onChange={setRole} items={roles} />
             <Select label="Timezone" onChange={setTimezone} items={timezones} />
+            <Select
+              label="Communication Language"
+              onChange={setComLanguage}
+              items={communicationLanguages}
+            />
             <LabelSwitch
               label="Inventor Matching"
               action={(e) =>

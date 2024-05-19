@@ -28,9 +28,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           throw new Error("User not found!");
         }
 
-        const passwordValidation = bcrypt.compare(
+        const passwordValidation = await bcrypt.compare(
           credentials.password,
-          user.password,
+          user.password
         );
 
         if (!passwordValidation) {
