@@ -2,16 +2,7 @@
  * @author Nathan Wise
  */
 import { POST } from "@/app/api/inventor-matching/find/route";
-import User from "@/app/models/user";
-
-function buildInventor(name, role, email) {
-    return {
-        name: name,
-        role: role,
-        email: email,
-        joinDate: Date.now()
-    }
-}
+import { createUser } from "../../lib";
 
 function buildReq(role, timezone, communicationLanguge, inventors) {
     return {
@@ -25,25 +16,6 @@ function buildReq(role, timezone, communicationLanguge, inventors) {
         }),
     };
 }
-
-async function createUser(prefix, role, timezone, language, matching) {
-    const firstname = `${prefix} first name`;
-    const lastname = `${prefix} last name`;
-    const email = `${prefix}@gmail.com`;
-
-    await User.create({
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: "test",
-        role: role,
-        language: language,
-        timezone: timezone,
-        matching: matching
-    });
-
-    return buildInventor(firstname + " " + lastname, role, email);
-};
 
 describe("Inventor Matching API", () => {
     describe("AUT001 - Retrieving a list of Inventors for a given project where their time zone & language match the projects equivalents, the role matches the given role, and all inventors have matching set to true", () => {
@@ -168,11 +140,6 @@ describe("Inventor Matching API", () => {
             for (let inventor of body.inventors) {
                 expect(inventor.name.indexOf(badPrefix)).not.toBe(0);
             }
-        });
-    });
-    
-    describe("AUT???", () => {
-        it("TCA??? - DESCRIPTION", () => {
         });
     });
 });
