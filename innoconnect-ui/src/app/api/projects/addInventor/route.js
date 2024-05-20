@@ -21,8 +21,8 @@ export async function POST(req) {
     }
 
     const preUpdateProject = await Project.findById(_id);
-    var inventorExists = false;
-    for (var i in preUpdateProject.inventors) {
+    let inventorExists = false;
+    for (let i in preUpdateProject.inventors) {
       if (preUpdateProject.inventors[i].email == email) {
         inventorExists = true;
         break;

@@ -13,7 +13,7 @@ export async function POST(req) {
     const { role, project } = resBody;
 
     const excludedEmails = [];
-    for (inventor of project.inventors) {
+    for (let inventor of project.inventors) {
       excludedEmails.push(inventor.email);
     }
 
@@ -26,7 +26,7 @@ export async function POST(req) {
     });
 
     const recommendedInventors = [];
-    for (var inventor of inventors) {
+    for (let inventor of inventors) {
       recommendedInventors.push({
         email: inventor.email,
         role: inventor.role,

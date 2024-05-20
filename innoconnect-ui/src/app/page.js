@@ -1,6 +1,5 @@
 import Image from "next/image";
 import ButtonLink from "@/app/components/ButtonLink";
-import Navbar from "@/app/components/Navbar";
 
 export default function Home() {
   return (

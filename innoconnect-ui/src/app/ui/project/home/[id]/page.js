@@ -114,7 +114,7 @@ export default function Page({ params }) {
         _id: params.id,
       });
 
-      var newProject = {
+      let newProject = {
         ...project,
         _id: projectRes.data.project._id,
         title: projectRes.data.project.title,
