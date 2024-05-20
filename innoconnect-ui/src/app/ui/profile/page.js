@@ -75,7 +75,7 @@ export default function Profile() {
   // Updates the user by sending a post request to the API.
   const updateUser = async () => {
     try {
-      const res = await axios.post("/api/users/protected/update", updatedUser);
+      await axios.post("/api/users/protected/update", updatedUser);
       handleClose();
     } catch (e) {
       console.log("User update failed!", e.message);

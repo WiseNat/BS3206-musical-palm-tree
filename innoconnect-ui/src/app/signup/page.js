@@ -42,7 +42,7 @@ export default function SignUp() {
   // Posts the user's data to the API
   const createSignup = async () => {
     try {
-      const res = await axios.post("/api/users/signup", user);
+      await axios.post("/api/users/signup", user);
       router.push("/login");
     } catch (e) {
       console.log("User registration failed!", e.message);

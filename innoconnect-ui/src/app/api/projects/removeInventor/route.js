@@ -4,7 +4,6 @@
 import Project from "@/app/models/project";
 import { connect } from "@/app/config/databaseConnection";
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
 
 connect();
 
