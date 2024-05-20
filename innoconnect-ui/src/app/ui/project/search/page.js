@@ -92,14 +92,12 @@ export default function ProjectSearch() {
   };
 
   return (
-    <main>
-      <Navbar />
+    <div>
       <Typography variant="h4" className="mb-4"></Typography>
       <div>
         <Form
           title="Project Search"
           submitAction={search}
-          className="mx-16 my-4"
         >
           <Box display={"flex"}>
             <TextField
@@ -140,6 +138,6 @@ export default function ProjectSearch() {
           </Form>
         </Modal>
       </div>
-    </main>
+    </div>
   );
 }

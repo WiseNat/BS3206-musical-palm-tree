@@ -51,67 +51,63 @@ export default function Create() {
 
   return (
     <div>
-      <Navbar />
-      <main>
-        <Form
-          title="Create a Project"
-          submitAction={createProject}
-          className="mx-16 my-4"
-        >
-          <TextField
-            label="Project Title"
-            onChange={(e) => setProject({ ...project, title: e.target.value })}
-            required
-          />
-          <TextField
-            label="Project Description"
-            onChange={(e) =>
-              setProject({ ...project, description: e.target.value })
-            }
-            minRows={3}
-            multiline
-            required
-          />
-          <Select
-            label="Main Communication Language"
-            items={communicationLanguages}
-            onChange={(e) =>
-              setProject({ ...project, mainCommunicationLanguage: e })
-            }
-            required
-          />
-          <Select
-            label="Main Timezone"
-            items={timezones}
-            onChange={(e) => setProject({ ...project, mainTimezone: e })}
-            required
-          />
-          <Select
-            label="Main Programming Language"
-            items={programmingLanguages}
-            onChange={(e) =>
-              setProject({ ...project, mainProgrammingLanguage: e })
-            }
-            required
-          />
-          <Select
-            label="Main Technology"
-            items={technologies}
-            onChange={(e) => setProject({ ...project, mainTechnology: e })}
-            required
-          />
-          <TextField
-            label="Project URL"
-            onChange={(e) =>
-              setProject({ ...project, projectUrl: e.target.value })
-            }
-            required
-          />
-          <Button variant="contained" type="Submit">
-            Submit
-          </Button>
-        </Form>
-      </main>
+      <Form
+        title="Create a Project"
+        submitAction={createProject}
+      >
+        <TextField
+          label="Project Title"
+          onChange={(e) => setProject({ ...project, title: e.target.value })}
+          required
+        />
+        <TextField
+          label="Project Description"
+          onChange={(e) =>
+            setProject({ ...project, description: e.target.value })
+          }
+          minRows={3}
+          multiline
+          required
+        />
+        <Select
+          label="Main Communication Language"
+          items={communicationLanguages}
+          onChange={(e) =>
+            setProject({ ...project, mainCommunicationLanguage: e })
+          }
+          required
+        />
+        <Select
+          label="Main Timezone"
+          items={timezones}
+          onChange={(e) => setProject({ ...project, mainTimezone: e })}
+          required
+        />
+        <Select
+          label="Main Programming Language"
+          items={programmingLanguages}
+          onChange={(e) =>
+            setProject({ ...project, mainProgrammingLanguage: e })
+          }
+          required
+        />
+        <Select
+          label="Main Technology"
+          items={technologies}
+          onChange={(e) => setProject({ ...project, mainTechnology: e })}
+          required
+        />
+        <TextField
+          label="Project URL"
+          onChange={(e) =>
+            setProject({ ...project, projectUrl: e.target.value })
+          }
+          required
+        />
+        <Button variant="contained" type="Submit">
+          Submit
+        </Button>
+      </Form>
     </div>
   );
 }

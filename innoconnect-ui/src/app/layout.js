@@ -4,6 +4,7 @@ import theme from "./theme";
 import "./ui/globals.css";
 import { auth } from "@/app/auth";
 import { SessionProvider } from "next-auth/react";
+import Navbar from "./components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,12 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <Navbar />
+            <main className="mx-16 my-9">
+              {children}
+            </main>
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>
