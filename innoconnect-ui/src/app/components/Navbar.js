@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import SearchIcon from "@mui/icons-material/Search";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -39,6 +40,19 @@ const Navbar = ({}) => {
     router.push("/login");
   };
 
+  const handleSearch = () => {
+    router.push("/ui/project/search");
+  };
+
+  // Determines 'home' path based on user being logged in
+  const handleHomeButton = () => {
+    if (session) {
+      router.push("/ui/home");
+    } else {
+      router.push("/login");
+    }
+  };
+
   const ShowUserManagement = ({ session, children }) => {
     if (session) return <>{children}</>;
   };
@@ -47,11 +61,22 @@ const Navbar = ({}) => {
     if (!session) return <>{children}</>;
   };
 
+  const ShowSearch = ({ session }) => {
+    if (session)
+      return (
+        <IconButton color="inherit" onClick={handleSearch}>
+          <Tooltip title="Project Search">
+            <SearchIcon />
+          </Tooltip>
+        </IconButton>
+      );
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <IconButton color="inherit" href="/">
+          <IconButton color="inherit" onClick={handleHomeButton}>
             <AccountTreeOutlinedIcon />
           </IconButton>
           <Typography
@@ -61,6 +86,7 @@ const Navbar = ({}) => {
           >
             <b>InnoConnect</b>
           </Typography>
+          <ShowSearch session={session} />
           <IconButton color="inherit" onClick={handleClick}>
             {" "}
             <Tooltip title="Account">
