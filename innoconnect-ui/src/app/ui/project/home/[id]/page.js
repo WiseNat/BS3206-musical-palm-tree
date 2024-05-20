@@ -265,8 +265,7 @@ export default function Page({ params }) {
                     </IconText>
                     <div className="flex-1" />
                     <Typography>
-                      Joined{" "}
-                      {new Date(inventor.joinDate).toLocaleDateString()}
+                      Joined {new Date(inventor.joinDate).toLocaleDateString()}
                     </Typography>
                     {isOwner() && inventor.role.toLowerCase() != "founder" ? (
                       <div className="pl-6">

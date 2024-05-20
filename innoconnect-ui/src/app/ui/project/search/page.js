@@ -106,10 +106,7 @@ export default function ProjectSearch() {
     <div>
       <Typography variant="h4" className="mb-4"></Typography>
       <div>
-        <Form
-          title="Project Search"
-          submitAction={search}
-        >
+        <Form title="Project Search" submitAction={search}>
           <Box display={"flex"}>
             <TextField
               className="flex-1"

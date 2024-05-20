@@ -51,11 +51,7 @@ export default function SignUp() {
   };
   return (
     <div>
-      <Form
-        title="Sign Up"
-        submitAction={createSignup}
-        className="mx-16 my-4"
-      >
+      <Form title="Sign Up" submitAction={createSignup} className="mx-16 my-4">
         <TextField
           id="firstname"
           label="First Name"

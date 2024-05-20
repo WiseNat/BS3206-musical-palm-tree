@@ -22,9 +22,7 @@ export default async function RootLayout({ children }) {
         <SessionProvider session={session}>
           <ThemeProvider theme={theme}>
             <Navbar />
-            <main className="mx-16 my-9">
-              {children}
-            </main>
+            <main className="mx-16 my-9">{children}</main>
           </ThemeProvider>
         </SessionProvider>
       </body>

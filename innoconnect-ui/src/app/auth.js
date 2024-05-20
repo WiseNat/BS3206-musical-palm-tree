@@ -36,7 +36,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         // Validates the user's password
         const passwordValidation = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password,
         );
 
         // Rejects sign in if the user's password is incorrect

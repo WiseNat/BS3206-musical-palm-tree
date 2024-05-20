@@ -51,10 +51,7 @@ export default function Create() {
 
   return (
     <div>
-      <Form
-        title="Create a Project"
-        submitAction={createProject}
-      >
+      <Form title="Create a Project" submitAction={createProject}>
         <TextField
           label="Project Title"
           onChange={(e) => setProject({ ...project, title: e.target.value })}

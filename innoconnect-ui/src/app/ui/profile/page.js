@@ -89,12 +89,7 @@ export default function Profile() {
       </Typography>
       <Form title="Current Details" className="my-4">
         <TextField id="email" label="Email" value={user.email} disabled />
-        <TextField
-          id="role"
-          label="Current Role"
-          value={user.role}
-          disabled
-        />
+        <TextField id="role" label="Current Role" value={user.role} disabled />
         <TextField
           id="language"
           label="Current Communication Language"
