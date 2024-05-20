@@ -103,15 +103,10 @@ export default function ProjectSearch() {
   };
 
   return (
-    <main>
-      <Navbar />
+    <div>
       <Typography variant="h4" className="mb-4"></Typography>
       <div>
-        <Form
-          title="Project Search"
-          submitAction={search}
-          className="mx-16 my-4"
-        >
+        <Form title="Project Search" submitAction={search}>
           <Box display={"flex"}>
             <TextField
               className="flex-1"
@@ -145,7 +140,7 @@ export default function ProjectSearch() {
             Search
           </Button>
         </Form>
-        <div className="grid grid-cols-4 gap-4 items-center pt-10 px-10">
+        <div className="grid grid-cols-4 gap-4 items-center pt-10">
           {projects.map(function (project, i) {
             return <ProjectView project={project} key={i} />;
           })}
@@ -174,6 +169,6 @@ export default function ProjectSearch() {
           </Form>
         </Modal>
       </div>
-    </main>
+    </div>
   );
 }

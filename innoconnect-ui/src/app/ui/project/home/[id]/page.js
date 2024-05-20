@@ -164,133 +164,129 @@ export default function Page({ params }) {
 
   return (
     <div>
-      <Navbar />
-      <main>
-        <div className="flex mb-4 px-9 py-12">
-          <Typography variant="h4">{project.title}</Typography>
-          <div className="flex-1" />
+      <div className="flex mb-4 py-12">
+        <Typography variant="h4">{project.title}</Typography>
+        <div className="flex-1" />
+        {isOwner() ? (
+          <ProjectSettingsDialog
+            submitCallback={projectSettingsDialogCallback}
+            project={project}
+          >
+            {(handleOpen) => (
+              <IconButton color="inherit" onClick={handleOpen}>
+                <Tooltip title="Project Settings">
+                  <SettingsIcon />
+                </Tooltip>
+              </IconButton>
+            )}
+          </ProjectSettingsDialog>
+        ) : null}
+      </div>
+      <div className="flex pb-9">
+        <div className="flex-none w-[28%] text-wrap break-pretty">
+          <div>{project.description}</div>
+          <div className="py-6">
+            <Divider orientation="horizontal"></Divider>
+          </div>
+          <IconText text={project.projectUrl} isTextUrl>
+            <Tooltip title="Project URL">
+              <LinkIcon />
+            </Tooltip>
+          </IconText>
+          <IconText text={project.mainProgrammingLanguage}>
+            <Tooltip title="Programming Language">
+              <DataObjectIcon />
+            </Tooltip>
+          </IconText>
+          <IconText text={project.mainTechnology}>
+            <Tooltip title="Technology">
+              <PrecisionManufacturingIcon />
+            </Tooltip>
+          </IconText>
+          <IconText text={project.mainCommunicationLanguage}>
+            <Tooltip title="Communication Language">
+              <LanguageIcon />
+            </Tooltip>
+          </IconText>
+          <IconText text={project.mainTimezone}>
+            <Tooltip title="Timezone">
+              <AccessTime />
+            </Tooltip>
+          </IconText>
           {isOwner() ? (
-            <ProjectSettingsDialog
-              submitCallback={projectSettingsDialogCallback}
-              project={project}
-            >
-              {(handleOpen) => (
-                <IconButton color="inherit" onClick={handleOpen}>
-                  <Tooltip title="Project Settings">
-                    <SettingsIcon />
-                  </Tooltip>
-                </IconButton>
-              )}
-            </ProjectSettingsDialog>
+            <IconText text="You own this project">
+              <StarIcon />
+            </IconText>
           ) : null}
         </div>
-        <div className="flex pb-9">
-          <div className="flex-none w-[28%] px-9 text-wrap break-pretty">
-            <div>{project.description}</div>
-            <div className="py-6">
-              <Divider orientation="horizontal"></Divider>
-            </div>
-            <IconText text={project.projectUrl} isTextUrl>
-              <Tooltip title="Project URL">
-                <LinkIcon />
-              </Tooltip>
-            </IconText>
-            <IconText text={project.mainProgrammingLanguage}>
-              <Tooltip title="Programming Language">
-                <DataObjectIcon />
-              </Tooltip>
-            </IconText>
-            <IconText text={project.mainTechnology}>
-              <Tooltip title="Technology">
-                <PrecisionManufacturingIcon />
-              </Tooltip>
-            </IconText>
-            <IconText text={project.mainCommunicationLanguage}>
-              <Tooltip title="Communication Language">
-                <LanguageIcon />
-              </Tooltip>
-            </IconText>
-            <IconText text={project.mainTimezone}>
-              <Tooltip title="Timezone">
-                <AccessTime />
-              </Tooltip>
-            </IconText>
-            {isOwner() ? (
-              <IconText text="You own this project">
-                <StarIcon />
-              </IconText>
-            ) : null}
-          </div>
-          <div className="flex-1 px-9">
-            <div className="flex flex-col space-y-4">
-              <div className="flex">
-                <Typography variant="h5" className="flex-none">
-                  Inventors
-                </Typography>
-                <div className="flex-1" />
-                {isOwner() ? (
-                  <>
-                    <InventorMatchingAddDialog
-                      addInventorCallback={inventorMatchingAddDialogCallback}
-                      project={project}
-                    >
-                      {(handleOpen) => (
-                        <IconButton color="inherit" onClick={handleOpen}>
-                          <Tooltip title="Inventor Matching">
-                            <AutoFixHighIcon />
-                          </Tooltip>
-                        </IconButton>
-                      )}
-                    </InventorMatchingAddDialog>
-                    <AddInventorDialog
-                      addInventorCallback={addInventorDialogCallback}
-                    >
-                      {(handleOpen) => (
-                        <IconButton color="inherit" onClick={handleOpen}>
-                          <Tooltip title="Add Inventor">
-                            <AddIcon />
-                          </Tooltip>
-                        </IconButton>
-                      )}
-                    </AddInventorDialog>
-                  </>
-                ) : null}
-              </div>
-              {project.inventors.map((inventor) => (
-                <Card key={inventor.email} variant="outlined">
-                  <CentredCardContent className="px-6">
-                    <div className="flex items-center py-3">
-                      <IconText text={inventor.name} className="flex-none">
-                        <Tooltip title={capitalize(inventor.role)}>
-                          {getRoleIcon(inventor.role)}
+        <div className="flex-1 px-9">
+          <div className="flex flex-col space-y-4">
+            <div className="flex">
+              <Typography variant="h5" className="flex-none">
+                Inventors
+              </Typography>
+              <div className="flex-1" />
+              {isOwner() ? (
+                <>
+                  <InventorMatchingAddDialog
+                    addInventorCallback={inventorMatchingAddDialogCallback}
+                    project={project}
+                  >
+                    {(handleOpen) => (
+                      <IconButton color="inherit" onClick={handleOpen}>
+                        <Tooltip title="Inventor Matching">
+                          <AutoFixHighIcon />
                         </Tooltip>
-                      </IconText>
-                      <div className="flex-1" />
-                      <Typography>
-                        Joined{" "}
-                        {new Date(inventor.joinDate).toLocaleDateString()}
-                      </Typography>
-                      {isOwner() && inventor.role.toLowerCase() != "founder" ? (
-                        <div className="pl-6">
-                          <IconButton
-                            id={inventor.email}
-                            onClick={removeInventor}
-                            className="flex-none"
-                          >
-                            <Tooltip title="Remove Inventor">
-                              <DeleteIcon color="error" />
-                            </Tooltip>
-                          </IconButton>
-                        </div>
-                      ) : null}
-                    </div>
-                  </CentredCardContent>
-                </Card>
-              ))}
+                      </IconButton>
+                    )}
+                  </InventorMatchingAddDialog>
+                  <AddInventorDialog
+                    addInventorCallback={addInventorDialogCallback}
+                  >
+                    {(handleOpen) => (
+                      <IconButton color="inherit" onClick={handleOpen}>
+                        <Tooltip title="Add Inventor">
+                          <AddIcon />
+                        </Tooltip>
+                      </IconButton>
+                    )}
+                  </AddInventorDialog>
+                </>
+              ) : null}
             </div>
+            {project.inventors.map((inventor) => (
+              <Card key={inventor.email} variant="outlined">
+                <CentredCardContent className="px-6">
+                  <div className="flex items-center py-3">
+                    <IconText text={inventor.name} className="flex-none">
+                      <Tooltip title={capitalize(inventor.role)}>
+                        {getRoleIcon(inventor.role)}
+                      </Tooltip>
+                    </IconText>
+                    <div className="flex-1" />
+                    <Typography>
+                      Joined {new Date(inventor.joinDate).toLocaleDateString()}
+                    </Typography>
+                    {isOwner() && inventor.role.toLowerCase() != "founder" ? (
+                      <div className="pl-6">
+                        <IconButton
+                          id={inventor.email}
+                          onClick={removeInventor}
+                          className="flex-none"
+                        >
+                          <Tooltip title="Remove Inventor">
+                            <DeleteIcon color="error" />
+                          </Tooltip>
+                        </IconButton>
+                      </div>
+                    ) : null}
+                  </div>
+                </CentredCardContent>
+              </Card>
+            ))}
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

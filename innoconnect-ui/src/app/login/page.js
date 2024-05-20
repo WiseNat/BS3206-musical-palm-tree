@@ -39,34 +39,31 @@ export default function Login() {
     }
   };
   return (
-    <main>
-      <Navbar />
-      <div>
-        <Form title="Login" submitAction={startLogin} className="mx-16 my-4">
-          <Typography color="red">{error}</Typography>
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-            required
-          />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            required
-          />
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
+    <div>
+      <Form title="Login" submitAction={startLogin} className="mx-16 my-4">
+        <Typography color="red">{error}</Typography>
+        <TextField
+          id="email"
+          label="Email"
+          type="email"
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          required
+        />
+        <TextField
+          id="password"
+          label="Password"
+          type="password"
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          required
+        />
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
 
-          <Typography>
-            Or <Link href="/signup">Sign Up</Link>
-          </Typography>
-        </Form>
-      </div>
-    </main>
+        <Typography>
+          Or <Link href="/signup">Sign Up</Link>
+        </Typography>
+      </Form>
+    </div>
   );
 }

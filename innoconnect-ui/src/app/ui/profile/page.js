@@ -83,73 +83,65 @@ export default function Profile() {
   };
 
   return (
-    <main>
-      <Navbar />
-      <Typography variant="h4" className="mb-4">
+    <div>
+      <Typography variant="h4" className="mb-9">
         Hi {session?.user.firstname}, lets manage your account!
       </Typography>
-      <div>
-        <Form title="Current Details" className="mx-16 my-4">
-          <TextField id="email" label="Email" value={user.email} disabled />
-          <TextField
-            id="role"
-            label="Current Role"
-            value={user.role}
-            disabled
-          />
-          <TextField
-            id="language"
-            label="Current Communication Language"
-            value={user.language}
-            disabled
-          />
-          <TextField
-            id="timezone"
-            label="Current Timezone"
-            value={user.timezone}
-            disabled
+      <Form title="Current Details" className="my-4">
+        <TextField id="email" label="Email" value={user.email} disabled />
+        <TextField id="role" label="Current Role" value={user.role} disabled />
+        <TextField
+          id="language"
+          label="Current Communication Language"
+          value={user.language}
+          disabled
+        />
+        <TextField
+          id="timezone"
+          label="Current Timezone"
+          value={user.timezone}
+          disabled
+        />
+        <LabelSwitch
+          label="Inventor Matching"
+          disabled
+          checked={user.matching}
+        />
+        <Button variant="contained" onClick={handleOpen}>
+          Edit Details
+        </Button>
+      </Form>
+      <Modal open={open} onClose={handleClose}>
+        <Form title="Edit Profile" submitAction={updateUser}>
+          <Select label="Role" onChange={setRole} items={roles} />
+          <Select label="Timezone" onChange={setTimezone} items={timezones} />
+          <Select
+            label="Communication Language"
+            onChange={setComLanguage}
+            items={communicationLanguages}
           />
           <LabelSwitch
             label="Inventor Matching"
-            disabled
-            checked={user.matching}
+            action={(e) =>
+              setUpdatedUser({ ...user, matching: e.target.checked })
+            }
           />
-          <Button variant="contained" onClick={handleOpen}>
-            Edit Details
+          <TextField
+            id="password"
+            label="Update Password"
+            onChange={(e) =>
+              setUpdatedUser({ ...user, password: e.target.value })
+            }
+            type="password"
+          />
+          <Button variant="contained" type="submit">
+            Submit
+          </Button>
+          <Button variant="contained" onClick={handleClose}>
+            Close
           </Button>
         </Form>
-        <Modal open={open} onClose={handleClose}>
-          <Form title="Edit Profile" submitAction={updateUser}>
-            <Select label="Role" onChange={setRole} items={roles} />
-            <Select label="Timezone" onChange={setTimezone} items={timezones} />
-            <Select
-              label="Communication Language"
-              onChange={setComLanguage}
-              items={communicationLanguages}
-            />
-            <LabelSwitch
-              label="Inventor Matching"
-              action={(e) =>
-                setUpdatedUser({ ...user, matching: e.target.checked })
-              }
-            />
-            <TextField
-              id="password"
-              label="Update Password"
-              onChange={(e) =>
-                setUpdatedUser({ ...user, password: e.target.value })
-              }
-              type="password"
-            />
-            <Button variant="contained" type="submit">
-              Submit
-            </Button>
-            <Button variant="contained" onClick={handleClose}>
-              Close
-            </Button>
-          </Form>
-        </Modal>
-      </div>
-    </main>
+      </Modal>
+    </div>
   );
 }

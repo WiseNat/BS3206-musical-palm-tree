@@ -50,66 +50,59 @@ export default function SignUp() {
     }
   };
   return (
-    <main>
-      <Navbar />
-      <div>
-        <Form
-          title="Sign Up"
-          submitAction={createSignup}
-          className="mx-16 my-4"
-        >
-          <TextField
-            id="firstname"
-            label="First Name"
-            onChange={(e) => setUser({ ...user, firstname: e.target.value })}
-            required
-          />
-          <TextField
-            id="lastname"
-            label="Last Name"
-            onChange={(e) => setUser({ ...user, lastname: e.target.value })}
-            required
-          />
-          <TextField
-            id="email"
-            label="Email"
-            type="email"
-            onChange={(e) => setUser({ ...user, email: e.target.value })}
-            required
-          />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-            required
-          />
-          <Select label="Role" onChange={setRole} items={roles} required />
-          <Select
-            label="Language"
-            onChange={setLanguage}
-            items={communicationLanguages}
-            required
-          />
-          <Select
-            label="Timezone"
-            onChange={setTimezone}
-            items={timezones}
-            required
-          />
-          <LabelSwitch
-            label="Inventor Matching"
-            action={(e) => setUser({ ...user, matching: e.target.checked })}
-          />
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
+    <div>
+      <Form title="Sign Up" submitAction={createSignup} className="mx-16 my-4">
+        <TextField
+          id="firstname"
+          label="First Name"
+          onChange={(e) => setUser({ ...user, firstname: e.target.value })}
+          required
+        />
+        <TextField
+          id="lastname"
+          label="Last Name"
+          onChange={(e) => setUser({ ...user, lastname: e.target.value })}
+          required
+        />
+        <TextField
+          id="email"
+          label="Email"
+          type="email"
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          required
+        />
+        <TextField
+          id="password"
+          label="Password"
+          type="password"
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          required
+        />
+        <Select label="Role" onChange={setRole} items={roles} required />
+        <Select
+          label="Language"
+          onChange={setLanguage}
+          items={communicationLanguages}
+          required
+        />
+        <Select
+          label="Timezone"
+          onChange={setTimezone}
+          items={timezones}
+          required
+        />
+        <LabelSwitch
+          label="Inventor Matching"
+          action={(e) => setUser({ ...user, matching: e.target.checked })}
+        />
+        <Button variant="contained" type="submit">
+          Submit
+        </Button>
 
-          <Typography>
-            Or <Link href="/login">Login</Link>
-          </Typography>
-        </Form>
-      </div>
-    </main>
+        <Typography>
+          Or <Link href="/login">Login</Link>
+        </Typography>
+      </Form>
+    </div>
   );
 }
