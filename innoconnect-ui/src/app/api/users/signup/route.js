@@ -47,7 +47,7 @@ export async function POST(req) {
     });
 
     // Commit user to the database
-    const createdUser = await receivedUser.save();
+    await receivedUser.save();
 
     return NextResponse.json({
       message: "User Created!",

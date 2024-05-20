@@ -3,6 +3,7 @@
  *
  * Stores the data used by the selection boxes and filter information
  */
+
 const filters = [
   "Communication Languages",
   "Timezones",
@@ -59,7 +60,6 @@ const timezones = [
   "UTC+12:45",
   "UTC+13:00",
   "UTC+14:00",
-  "",
 ];
 
 const programmingLanguages = [
