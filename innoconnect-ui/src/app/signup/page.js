@@ -40,8 +40,9 @@ export default function SignUp() {
   };
 
   // Posts the user's data to the API
-  const createSignup = async () => {
+  const createSignup = async (e) => {
     try {
+      e.preventDefault();
       await axios.post("/api/users/signup", user);
       router.push("/login");
     } catch (e) {

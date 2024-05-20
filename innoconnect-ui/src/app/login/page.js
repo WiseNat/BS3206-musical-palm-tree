@@ -23,12 +23,16 @@ export default function Login() {
   const startLogin = async (event) => {
     try {
       event.preventDefault();
-      await signIn("credentials", {
+      let signInStatus = await signIn("credentials", {
         redirect: false,
         email: user.email,
         password: user.password,
       });
-      router.push("/ui/home");
+      if (signInStatus.error != null) {
+        setError("Username or Password may be incorrect!");
+      } else {
+        router.push("/ui/home");
+      }
     } catch (e) {
       console.log(e);
       setError("Username or Password may be incorrect!");
