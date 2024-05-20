@@ -9,6 +9,10 @@ import Typography from "@mui/material/Typography";
 import Form from "@/app/components/Form";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import ProjectView from "@/app/components/ProjectView";
@@ -26,6 +30,8 @@ import {
 export default function ProjectSearch() {
   const [searchQuery, setSearchQuery] = useState({
     query: "",
+    filterType: null,
+    filter: null,
   });
 
   const [projects, setProjects] = useState([]);
@@ -42,6 +48,11 @@ export default function ProjectSearch() {
   // Posts the search query to the API.
   const search = async (e) => {
     try {
+      // Checks if modal is open & closes it
+      if (open) {
+        handleClose();
+      }
+
       e.preventDefault();
       const res = await axios.post("/api/projects/search", searchQuery);
       setProjects(res.data.projects);
@@ -51,7 +62,7 @@ export default function ProjectSearch() {
   };
 
   const setFilterSearch = (value) => {
-    setSearchQuery({ query: value });
+    setSearchQuery({ ...searchQuery, filter: value });
   };
 
   // Renders 'No Projects Found' message if no projects are found.
@@ -61,34 +72,34 @@ export default function ProjectSearch() {
 
   // Handles the selection of the filter, mapping it to the correct filter array.
   const handleFilterType = (filterType) => {
-    let filterSelection;
+    let filterValues = {};
     switch (filterType) {
       case "Communication Languages":
-        filterSelection = communicationLanguages;
+        filterValues.filterSelection = communicationLanguages;
+        filterValues.filterType = "mainCommunicationLanguage";
         break;
       case "Timezones":
-        filterSelection = timezones;
+        filterValues.filterSelection = timezones;
+        filterValues.filterType = "mainTimezone";
         break;
       case "Programming Languages":
-        filterSelection = programmingLanguages;
+        filterValues.filterSelection = programmingLanguages;
+        filterValues.filterType = "mainProgrammingLanguage";
         break;
       case "Technologies":
-        filterSelection = technologies;
+        filterValues.filterSelection = technologies;
+        filterValues.filterType = "mainTechnology";
         break;
     }
-    setFilter({ filterFields: filterSelection, filterName: filterType });
-  };
-
-  // Renders the filter based on the users' selection
-  const ShowFilter = () => {
-    if (filter.filterFields != "")
-      return (
-        <Select
-          label={filter.filterName}
-          items={filter.filterFields}
-          onChange={setFilterSearch}
-        />
-      );
+    setSearchQuery({
+      ...searchQuery,
+      filterType: filterValues.filterType,
+      filter: null,
+    });
+    setFilter({
+      filterFields: filterValues.filterSelection,
+      filterName: filterType,
+    });
   };
 
   return (
@@ -103,15 +114,32 @@ export default function ProjectSearch() {
         >
           <Box display={"flex"}>
             <TextField
+              className="flex-1"
               id="query"
               label="Search"
               onChange={(e) =>
                 setSearchQuery({ ...searchQuery, query: e.target.value })
               }
             />
-            <Button variant="contained" onClick={handleOpen}>
-              Filter
-            </Button>
+            <IconButton onClick={handleOpen}>
+              <Tooltip title={"Open Filter"}>
+                <FilterAltIcon />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              type="submit"
+              onClick={() =>
+                setSearchQuery({
+                  ...searchQuery,
+                  filter: null,
+                  filterType: null,
+                })
+              }
+            >
+              <Tooltip title={"Clear Filter"}>
+                <FilterAltOffIcon />
+              </Tooltip>
+            </IconButton>
           </Box>
           <Button variant="contained" type="Submit">
             Search
@@ -130,7 +158,13 @@ export default function ProjectSearch() {
               items={filters}
               onChange={handleFilterType}
             ></Select>
-            <ShowFilter />
+            {filter.filterFields != "" ? (
+              <Select
+                label={filter.filterName}
+                items={filter.filterFields}
+                onChange={setFilterSearch}
+              />
+            ) : null}
             <Button variant="contained" type="submit">
               Search Filter
             </Button>

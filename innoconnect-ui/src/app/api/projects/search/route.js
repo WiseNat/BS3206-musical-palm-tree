@@ -10,9 +10,19 @@ connect();
 export async function POST(req) {
   try {
     const reqBody = await req.json();
-    const { query } = reqBody;
+    const { query, filter, filterType } = reqBody;
 
-    const projects = await Project.fuzzySearch(query);
+    let projects = await Project.fuzzySearch(query);
+
+    let filteredProjects = [];
+    if (filterType && filter) {
+      for (let project of projects) {
+        if (project[filterType] == filter) {
+          filteredProjects.push(project);
+        }
+      }
+      projects = filteredProjects;
+    }
 
     if (projects) {
       return NextResponse.json({ projects: projects, status: 200 });
